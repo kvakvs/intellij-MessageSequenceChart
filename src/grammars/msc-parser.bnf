@@ -1,0 +1,43 @@
+{
+    parserClass="se.clau.intellij_msc.parser.MscParser"
+    parserUtilClass="se.clau.intellij_msc.parser.MscParserUtil"
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Msc"
+    psiImplClassSuffix="Impl"
+    psiPackage="se.clau.intellij_msc.psi"
+    psiImplPackage="se.clau.intellij_msc.psi.impl"
+
+    elementTypeHolderClass="se.clau.intellij_msc.MscTypes"
+    elementTypeClass="se.clau.intellij_msc.psi.MscElementType"
+    tokenTypeClass="se.clau.intellij_msc.psi.MscTokenType"
+    tokens = [
+        space   = 'regexp:[\s\r\n]+'
+        comment = 'regexp:(//|#).*'
+//        number  = 'regexp:\d+(\.\d*)?'
+//        id      = 'regexp:\p{Alpha}\w*'
+//        string  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+//
+//        SEMICOLON   = ';'
+//        COMMA       = ','
+//        MSC_TAG     = 'msc'
+//        OPEN_CURLY  = '{'
+//        CLOSE_CURLY = '}'
+//        ELLIPSIS    = '...'
+//        TRIPLE_BAR  = '|||'
+    ]
+}
+
+file ::= SHEBANG? MSC_TAG OPEN_CURLY element+ CLOSE_CURLY
+
+// contents inside msc { ... } - msc options, entity list or message links
+element ::= (option_line | entity_list | skip | COMMENT)
+
+option_line ::= option (COMMA option)* SEMICOLON
+option ::= OPTION_NAME "=" STRING
+
+entity_list ::= entity_name (COMMA entity_name)* SEMICOLON
+private entity_name ::= (ENTITY_NAME | STRING)
+
+// A skip element, creates vertical spacing
+private skip ::= (ELLIPSIS | TRIPLE_BAR) SEMICOLON

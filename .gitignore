@@ -1,0 +1,9 @@
+/gradlew
+/gradlew.bat
+/idea-flex.skeleton
+/jflex-*.jar
+
+/.idea/
+/build/
+/.gradle/
+/gradle/
