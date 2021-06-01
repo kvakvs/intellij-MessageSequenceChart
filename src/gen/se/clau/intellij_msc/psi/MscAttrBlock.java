@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MscElement extends PsiElement {
+public interface MscAttrBlock extends PsiElement {
 
-  @Nullable
-  MscAttrBlock getAttrBlock();
-
-  @Nullable
-  MscEntityList getEntityList();
-
-  @Nullable
-  MscOptionLine getOptionLine();
+  @NotNull
+  List<MscOption> getOptionList();
 
 }

@@ -29,6 +29,12 @@ public class MscElementImpl extends ASTWrapperPsiElement implements MscElement {
 
   @Override
   @Nullable
+  public MscAttrBlock getAttrBlock() {
+    return findChildByClass(MscAttrBlock.class);
+  }
+
+  @Override
+  @Nullable
   public MscEntityList getEntityList() {
     return findChildByClass(MscEntityList.class);
   }

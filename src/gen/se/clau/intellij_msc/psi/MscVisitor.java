@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class MscVisitor extends PsiElementVisitor {
 
+  public void visitAttrBlock(@NotNull MscAttrBlock o) {
+    visitPsiElement(o);
+  }
+
   public void visitElement(@NotNull MscElement o) {
     visitPsiElement(o);
   }

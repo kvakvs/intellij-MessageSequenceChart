@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface MscEntityList extends PsiElement {
 
+  @NotNull
+  List<MscAttrBlock> getAttrBlockList();
+
 }

@@ -4,15 +4,18 @@ import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import se.clau.intellij_msc.MscTypes;
+import se.clau.intellij_msc.psi.MscString;
 import static se.clau.intellij_msc.psi.MscParserDefinition.*;
 
 %%
 
 %{
-  public int yyline;
-  public _MscLexer() {
-    this((java.io.Reader)null);
-  }
+    public int yyline;
+    StringBuffer inString = new StringBuffer();
+
+    public _MscLexer() {
+        this((java.io.Reader)null);
+    }
 %}
 
 %class _MscLexer
@@ -23,57 +26,73 @@ import static se.clau.intellij_msc.psi.MscParserDefinition.*;
 %function advance
 %type IElementType
 
-NewLine = [\r\n]+
-ShebangLine = "#!" [^\r\n]*
-
-CommentLine1  = "//" [^\r\n]*
-CommentLine2  = "#" [^\r\n]*
-Comment       = ({CommentLine1} | {CommentLine2})+
-
-WhitespaceNewline   = \n | \r | \r\n
-WhitespaceSameline  = [\ \t]
-WhitespaceChar      = {WhitespaceNewline} | {WhitespaceSameline}
+Newline             = \n | \r | \r\n
+WhitespaceSameline  = [\s\t]
+WhitespaceChar      = {Newline} | {WhitespaceSameline}
 Whitespace          = {WhitespaceChar}+
+
+Remainder = ([^\r\n]*) {Newline}
+
+//ShebangLine = "#!" {Remainder}
+
+Comment1  = "//" {Remainder}
+Comment2  = "#" {Remainder}
 
 OptionName = "hscale" | "width" | "arcgradient" | "wordwraparcs"
 
-String = "\"" [^\"]* "\""
 EntityName = [a-zA-Z_] [a-zA-Z0-9_]*
 
-%state IN_MSC
+//%state IN_MSC
+%state STRING
+
+%function advance
 %unicode
 %line
+%type IElementType
 //%column
 
 %%
 
 //------------------------------------------------------------------------------
-<YYINITIAL, IN_MSC> {
-  {Comment}      { return MscTypes.COMMENT; }
-
-  ";"            { return MscTypes.SEMICOLON; }
-  ","            { return MscTypes.COMMA; }
-
-  "{"            { return MscTypes.OPEN_CURLY; }
-  "}"            { yybegin(YYINITIAL); return MscTypes.CLOSE_CURLY; }
-
-  "..."          { return MscTypes.ELLIPSIS; }
-  "|||"          { return MscTypes.TRIPLE_BAR; }
-
-  {Whitespace}   { return TokenType.WHITE_SPACE; }
-}
-
-//------------------------------------------------------------------------------
 <YYINITIAL> {
-  {ShebangLine}    { return MscTypes.SHEBANG; }
-  "msc"            { yybegin(IN_MSC); return MscTypes.MSC_TAG; }
+//  {ShebangLine}    { return getTokenStart() == 0
+//                        ? MscTypes.SHEBANG
+//                        : com.intellij.psi.TokenType.ERROR_ELEMENT; }
+  "msc"         {  return MscTypes.MSC_KEYWORD; }
+
+  ";"           { return MscTypes.SEMICOLON; }
+  ","           { return MscTypes.COMMA; }
+
+  "{"           { return MscTypes.OPEN_CURLY; }
+  "}"           { yybegin(YYINITIAL); return MscTypes.CLOSE_CURLY; }
+
+  "["           { return MscTypes.OPEN_SQUARE; }
+  "]"           { return MscTypes.CLOSE_SQUARE; }
+
+  // Vertical Separators
+  "..."         { return MscTypes.ELLIPSIS; }
+  "|||"         { return MscTypes.TRIPLE_BAR; }
+  "---"         { return MscTypes.TRIPLE_DASH; }
+
+  {OptionName}   { return MscTypes.OPTION_NAME; }
+  \"             { inString.setLength(0); yybegin(STRING); }
+//  {EntityName}   { return MscTypes.ENTITY_NAME; }
+
+  {Comment1}|{Comment1} { /*return MscTypes.COMMENT;*/ }
+  {Whitespace}     { return TokenType.WHITE_SPACE; }
 }
 
 //------------------------------------------------------------------------------
-<IN_MSC> {
-  {OptionName}   { return MscTypes.OPTION_NAME; }
-  {String}       { return MscTypes.STRING; }
-  {EntityName}   { return MscTypes.ENTITY_NAME; }
+<STRING> {
+    \"            { yybegin(YYINITIAL);
+                    return new MscString(inString.toString()); }
+    [^\n\r\"\\]+  { inString.append( yytext() ); }
+    \\t           { inString.append('\t'); }
+    \\n           { inString.append('\n'); }
+
+    \\r           { inString.append('\r'); }
+    \\\"          { inString.append('\"'); }
+    \\            { inString.append('\\'); }
 }
 
 //------------------------------------------------------------------------------
