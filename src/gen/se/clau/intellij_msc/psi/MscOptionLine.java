@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MscOptionLine extends PsiElement {
 
   @NotNull
-  List<MscOption> getOptionList();
+  MscOptionList getOptionList();
 
   @NotNull
   PsiElement getSemicolon();

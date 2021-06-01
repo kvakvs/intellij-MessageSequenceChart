@@ -25,8 +25,9 @@ public class _MscLexer implements FlexLexer {
   /** lexical states */
   public static final int YYINITIAL = 0;
   public static final int ATTR_STRING = 2;
-  public static final int MSC_SECTION = 4;
-  public static final int ATTR = 6;
+  public static final int STRING = 4;
+  public static final int MSC_SECTION = 6;
+  public static final int ATTR = 8;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -35,7 +36,7 @@ public class _MscLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3, 3
+     0,  0,  1,  1,  2,  2,  3,  3,  4, 4
   };
 
   /** 
@@ -57,9 +58,9 @@ public class _MscLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 256 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\12\0\1\34\2\0\1\34\24\0\1\33\4\0\1\15\2\0\1\22\1\0\1\7\1\14\1\12\13\0\1\21"+
-    "\1\6\1\23\1\17\1\16\34\0\1\10\1\35\1\11\3\0\1\26\1\24\1\3\1\0\1\32\7\0\1\1"+
-    "\1\30\1\25\2\0\1\27\1\2\1\31\3\0\1\20\2\0\1\4\1\13\1\5\202\0");
+    "\12\0\1\34\2\0\1\34\24\0\1\33\4\0\1\16\2\0\1\22\1\0\1\7\1\15\1\13\13\0\1\21"+
+    "\1\6\1\23\1\12\1\17\34\0\1\10\1\35\1\11\3\0\1\26\1\24\1\3\1\0\1\32\7\0\1\1"+
+    "\1\30\1\25\2\0\1\27\1\2\1\31\3\0\1\20\2\0\1\4\1\14\1\5\202\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -67,16 +68,16 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\4\0\1\1\2\2\1\3\1\4\1\2\1\1\1\5"+
-    "\1\6\1\7\2\10\1\11\1\12\1\13\1\14\1\15"+
-    "\1\16\4\2\1\17\1\20\1\21\1\22\2\0\1\23"+
-    "\1\24\1\25\1\26\1\10\16\0\1\22\1\27\2\10"+
-    "\1\30\1\31\1\32\17\0\1\33\1\0\1\34\1\35"+
+    "\5\0\1\1\2\2\1\3\1\4\1\2\1\1\1\5"+
+    "\1\6\1\7\1\10\2\11\1\12\1\13\1\14\1\15"+
+    "\1\16\1\17\1\20\4\2\1\21\1\22\2\0\1\23"+
+    "\1\24\1\25\1\26\1\11\16\0\1\22\1\27\2\11"+
+    "\1\30\1\31\1\32\17\0\1\33\1\34\1\0\1\35"+
     "\1\36\1\37\1\40\1\0\1\41\1\42\1\43\1\44"+
     "\4\0\1\45\1\46\1\47\3\0\1\50\1\51\1\52";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[98];
+    int [] result = new int[99];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -101,22 +102,22 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\36\0\74\0\132\0\170\0\226\0\264\0\264"+
-    "\0\264\0\322\0\360\0\u010e\0\264\0\u012c\0\u014a\0\u0168"+
-    "\0\264\0\264\0\264\0\264\0\264\0\264\0\u0186\0\u01a4"+
-    "\0\u01c2\0\u01e0\0\264\0\264\0\264\0\u01fe\0\u021c\0\u023a"+
-    "\0\264\0\264\0\264\0\264\0\u0258\0\u0276\0\u0294\0\u02b2"+
+    "\0\0\0\36\0\74\0\132\0\170\0\226\0\264\0\322"+
+    "\0\322\0\322\0\360\0\u010e\0\u012c\0\322\0\u014a\0\322"+
+    "\0\u0168\0\u0186\0\322\0\322\0\322\0\322\0\322\0\322"+
+    "\0\322\0\u01a4\0\u01c2\0\u01e0\0\u01fe\0\322\0\u021c\0\u023a"+
+    "\0\u0258\0\322\0\322\0\322\0\322\0\u0276\0\u0294\0\u02b2"+
     "\0\u02d0\0\u02ee\0\u030c\0\u032a\0\u0348\0\u0366\0\u0384\0\u03a2"+
-    "\0\u03c0\0\u03de\0\u03fc\0\u041a\0\264\0\u0438\0\u0456\0\264"+
-    "\0\264\0\264\0\u0474\0\u0492\0\u04b0\0\u04ce\0\u04ec\0\u050a"+
+    "\0\u03c0\0\u03de\0\u03fc\0\u041a\0\u0438\0\322\0\u0456\0\u0474"+
+    "\0\322\0\322\0\322\0\u0492\0\u04b0\0\u04ce\0\u04ec\0\u050a"+
     "\0\u0528\0\u0546\0\u0564\0\u0582\0\u05a0\0\u05be\0\u05dc\0\u05fa"+
-    "\0\u0618\0\264\0\u0636\0\264\0\264\0\264\0\264\0\264"+
-    "\0\u0654\0\264\0\264\0\264\0\264\0\u0672\0\u0690\0\u06ae"+
-    "\0\u06cc\0\264\0\264\0\264\0\u06ea\0\u0708\0\u0726\0\264"+
-    "\0\264\0\264";
+    "\0\u0618\0\u0636\0\322\0\322\0\u0654\0\322\0\322\0\322"+
+    "\0\322\0\u0672\0\322\0\322\0\322\0\322\0\u0690\0\u06ae"+
+    "\0\u06cc\0\u06ea\0\322\0\322\0\322\0\u0708\0\u0726\0\u0744"+
+    "\0\322\0\322\0\322";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[98];
+    int [] result = new int[99];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -139,39 +140,37 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\5\1\6\2\7\1\10\1\11\7\7\1\12\16\7"+
-    "\1\13\1\7\33\14\1\15\1\7\1\16\1\17\3\20"+
-    "\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
-    "\1\31\1\32\2\7\1\20\3\7\7\20\1\7\1\13"+
-    "\1\7\1\17\3\20\3\7\1\24\1\33\1\10\3\7"+
-    "\1\12\1\7\1\34\1\20\3\7\7\20\1\35\1\13"+
-    "\1\7\1\36\33\0\1\13\3\0\1\37\71\0\1\40"+
-    "\35\0\1\13\33\0\1\13\1\0\33\14\32\0\1\41"+
-    "\1\42\1\43\1\0\1\44\2\0\1\45\3\20\14\0"+
-    "\1\20\3\0\7\20\1\0\1\13\1\0\4\20\14\0"+
-    "\1\20\3\0\7\20\15\0\1\46\36\0\1\47\36\0"+
-    "\1\50\21\0\1\40\13\0\1\51\1\0\1\52\1\53"+
-    "\1\54\1\55\1\56\1\57\1\60\1\0\1\61\1\62"+
-    "\1\63\5\0\1\13\33\64\1\13\1\64\3\0\1\65"+
-    "\47\0\1\64\20\0\1\66\3\67\14\64\1\67\3\64"+
-    "\7\67\1\64\1\13\1\64\12\0\1\70\36\0\1\71"+
-    "\36\0\1\72\37\0\1\73\1\0\1\74\33\0\1\75"+
-    "\35\0\1\76\33\0\1\77\37\0\1\100\42\0\1\101"+
-    "\26\0\1\102\2\0\1\103\1\0\1\104\1\0\1\105"+
-    "\37\0\1\106\34\0\1\107\35\0\1\110\36\0\1\111"+
-    "\11\0\33\64\1\0\1\64\1\66\3\20\14\0\1\20"+
-    "\3\0\7\20\1\0\1\13\1\0\1\20\3\67\14\64"+
-    "\1\67\3\64\7\67\1\64\1\0\1\64\15\0\1\112"+
-    "\4\0\1\113\30\0\1\114\35\0\1\115\35\0\1\116"+
-    "\35\0\1\117\35\0\1\120\34\0\1\121\36\0\1\122"+
-    "\35\0\1\123\35\0\1\124\35\0\1\125\40\0\1\126"+
-    "\42\0\1\127\35\0\1\130\41\0\1\131\21\0\1\132"+
-    "\35\0\1\133\35\0\1\134\40\0\1\135\35\0\1\136"+
-    "\47\0\1\137\20\0\1\140\35\0\1\141\35\0\1\142"+
-    "\20\0";
+    "\1\6\1\7\2\10\1\11\1\12\10\10\1\13\15\10"+
+    "\1\14\1\10\33\15\1\16\1\10\1\17\33\15\1\20"+
+    "\1\10\1\17\1\21\3\22\1\23\1\24\1\25\1\26"+
+    "\1\27\1\30\1\31\1\32\1\33\1\34\1\35\1\10"+
+    "\1\22\3\10\7\22\1\36\1\14\37\10\1\37\33\0"+
+    "\1\14\3\0\1\40\71\0\1\41\35\0\1\14\33\0"+
+    "\1\14\1\0\33\15\32\0\1\42\1\43\1\44\1\0"+
+    "\1\45\2\0\1\46\3\22\14\0\1\22\3\0\7\22"+
+    "\1\0\1\14\1\0\4\22\14\0\1\22\3\0\7\22"+
+    "\16\0\1\47\36\0\1\50\36\0\1\51\20\0\1\41"+
+    "\11\0\1\52\2\0\1\53\1\0\1\54\1\55\1\56"+
+    "\1\57\1\60\1\61\1\0\1\62\1\63\1\64\5\0"+
+    "\1\14\33\65\1\14\1\65\3\0\1\66\50\0\1\65"+
+    "\17\0\1\67\3\70\14\65\1\70\3\65\7\70\1\65"+
+    "\1\14\1\65\13\0\1\71\36\0\1\72\36\0\1\73"+
+    "\37\0\1\74\35\0\1\75\1\76\34\0\1\77\33\0"+
+    "\1\100\37\0\1\101\41\0\1\102\24\0\1\103\2\0"+
+    "\1\104\3\0\1\105\1\0\1\106\37\0\1\107\34\0"+
+    "\1\110\35\0\1\111\36\0\1\112\11\0\33\65\1\0"+
+    "\1\65\1\67\3\22\14\0\1\22\3\0\7\22\1\0"+
+    "\1\14\1\0\1\22\3\70\14\65\1\70\3\65\7\70"+
+    "\1\65\1\0\1\65\16\0\1\113\35\0\1\114\3\0"+
+    "\1\115\31\0\1\116\35\0\1\117\35\0\1\120\35\0"+
+    "\1\121\34\0\1\122\36\0\1\123\35\0\1\124\35\0"+
+    "\1\125\35\0\1\126\37\0\1\127\42\0\1\130\35\0"+
+    "\1\131\41\0\1\132\22\0\1\133\35\0\1\134\35\0"+
+    "\1\135\37\0\1\136\35\0\1\137\47\0\1\140\21\0"+
+    "\1\141\35\0\1\142\35\0\1\143\17\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1860];
+    int [] result = new int[1890];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -209,13 +208,13 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\4\0\2\1\3\11\3\1\1\11\3\1\6\11\4\1"+
-    "\3\11\1\1\2\0\4\11\1\1\16\0\1\1\1\11"+
-    "\2\1\3\11\17\0\1\11\1\0\5\11\1\0\4\11"+
-    "\4\0\3\11\3\0\3\11";
+    "\5\0\2\1\3\11\3\1\1\11\1\1\1\11\2\1"+
+    "\7\11\4\1\1\11\1\1\2\0\4\11\1\1\16\0"+
+    "\1\1\1\11\2\1\3\11\17\0\2\11\1\0\4\11"+
+    "\1\0\4\11\4\0\3\11\3\0\3\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[98];
+    int [] result = new int[99];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -612,42 +611,42 @@ public class _MscLexer implements FlexLexer {
             // fall through
           case 49: break;
           case 8: 
-            { return MscTypes.IDENTIFIER;
+            { yybegin(MSC_SECTION); return MscTypes.STRING_LIT;
             } 
             // fall through
           case 50: break;
           case 9: 
-            { return MscTypes.OPEN_CURLY;
+            { return MscTypes.IDENTIFIER;
             } 
             // fall through
           case 51: break;
           case 10: 
-            { yybegin(YYINITIAL); yypushback(1);
+            { return MscTypes.OPEN_CURLY;
             } 
             // fall through
           case 52: break;
           case 11: 
-            { return MscTypes.SEMICOLON;
+            { yybegin(YYINITIAL); yypushback(1);
             } 
             // fall through
           case 53: break;
           case 12: 
-            { return MscTypes.COMMA;
+            { return MscTypes.SEMICOLON;
             } 
             // fall through
           case 54: break;
           case 13: 
-            { yybegin(ATTR); yypushback(1);
+            { return MscTypes.COMMA;
             } 
             // fall through
           case 55: break;
           case 14: 
-            { return MscTypes.CLOSE_SQUARE;
+            { return MscTypes.OPEN_SQUARE;
             } 
             // fall through
           case 56: break;
           case 15: 
-            { return MscTypes.OPEN_SQUARE;
+            { return MscTypes.CLOSE_SQUARE;
             } 
             // fall through
           case 57: break;
@@ -657,7 +656,7 @@ public class _MscLexer implements FlexLexer {
             // fall through
           case 58: break;
           case 17: 
-            { inString.setLength(0); yybegin(ATTR_STRING);
+            { inString.setLength(0); yybegin(STRING);
             } 
             // fall through
           case 59: break;
@@ -707,22 +706,22 @@ public class _MscLexer implements FlexLexer {
             // fall through
           case 68: break;
           case 27: 
-            { return MscTypes.ARROW_R;
+            { return MscTypes.DARROW_R;
             } 
             // fall through
           case 69: break;
           case 28: 
-            { return MscTypes.XARROW_R;
+            { return MscTypes.ARROW_R;
             } 
             // fall through
           case 70: break;
           case 29: 
-            { return MscTypes.ARROW_RR;
+            { return MscTypes.XARROW_R;
             } 
             // fall through
           case 71: break;
           case 30: 
-            { return MscTypes.DARROW_R;
+            { return MscTypes.ARROW_RR;
             } 
             // fall through
           case 72: break;
@@ -737,12 +736,12 @@ public class _MscLexer implements FlexLexer {
             // fall through
           case 74: break;
           case 33: 
-            { return MscTypes.ARROW_L;
+            { return MscTypes.DARROW_L;
             } 
             // fall through
           case 75: break;
           case 34: 
-            { return MscTypes.DARROW_L;
+            { return MscTypes.ARROW_L;
             } 
             // fall through
           case 76: break;

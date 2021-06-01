@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface MscAttrBlock extends PsiElement {
 
-  @NotNull
-  List<MscAttr> getAttrList();
+  @Nullable
+  MscAttrList getAttrList();
 
   @NotNull
   PsiElement getCloseSquare();

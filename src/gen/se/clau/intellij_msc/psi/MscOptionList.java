@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MscSkip extends PsiElement {
-
-  @Nullable
-  MscAttrBlock getAttrBlock();
+public interface MscOptionList extends PsiElement {
 
   @NotNull
-  MscSkipCommand getSkipCommand();
-
-  @NotNull
-  PsiElement getSemicolon();
+  List<MscOption> getOptionList();
 
 }

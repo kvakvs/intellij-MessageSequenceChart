@@ -29,8 +29,8 @@ public class MscOptionLineImpl extends ASTWrapperPsiElement implements MscOption
 
   @Override
   @NotNull
-  public List<MscOption> getOptionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscOption.class);
+  public MscOptionList getOptionList() {
+    return findNotNullChildByClass(MscOptionList.class);
   }
 
   @Override

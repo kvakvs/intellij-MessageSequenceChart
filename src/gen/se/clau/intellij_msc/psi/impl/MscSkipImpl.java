@@ -34,27 +34,15 @@ public class MscSkipImpl extends ASTWrapperPsiElement implements MscSkip {
   }
 
   @Override
-  @Nullable
-  public PsiElement getEllipsis() {
-    return findChildByType(ELLIPSIS);
+  @NotNull
+  public MscSkipCommand getSkipCommand() {
+    return findNotNullChildByClass(MscSkipCommand.class);
   }
 
   @Override
   @NotNull
   public PsiElement getSemicolon() {
     return findNotNullChildByType(SEMICOLON);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getTripleBar() {
-    return findChildByType(TRIPLE_BAR);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getTripleDash() {
-    return findChildByType(TRIPLE_DASH);
   }
 
 }

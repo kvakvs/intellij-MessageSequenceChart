@@ -8,10 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MscEntityList extends PsiElement {
 
   @NotNull
-  List<MscAttrBlock> getAttrBlockList();
-
-  @NotNull
-  List<MscString> getStringList();
+  List<MscEntity> getEntityList();
 
   @NotNull
   PsiElement getSemicolon();

@@ -28,9 +28,9 @@ public class MscAttrBlockImpl extends ASTWrapperPsiElement implements MscAttrBlo
   }
 
   @Override
-  @NotNull
-  public List<MscAttr> getAttrList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscAttr.class);
+  @Nullable
+  public MscAttrList getAttrList() {
+    return findChildByClass(MscAttrList.class);
   }
 
   @Override

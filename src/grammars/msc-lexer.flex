@@ -45,6 +45,7 @@ Identifier  = \p{Alpha}\w*
 //%column
 
 %state ATTR_STRING
+%state STRING
 %state MSC_SECTION
 %state ATTR
 
@@ -70,8 +71,10 @@ Identifier  = \p{Alpha}\w*
     "{"           { return MscTypes.OPEN_CURLY; }
     "}"           { yybegin(YYINITIAL); yypushback(1); }
 
-    "["           { yybegin(ATTR); yypushback(1); }
+//    "["           { yybegin(ATTR); yypushback(1); }
+    "["           { return MscTypes.OPEN_SQUARE; }
     "]"           { return MscTypes.CLOSE_SQUARE; }
+    "="           { return MscTypes.EQUALS; }
 
     // Vertical Separators
     "..."         { return MscTypes.ELLIPSIS; }
@@ -97,6 +100,7 @@ Identifier  = \p{Alpha}\w*
     'rbox'      { return MscTypes.ROUNDED_BOX; }
     'note'      { return MscTypes.NOTE_BOX; }
 
+    \"             { inString.setLength(0); yybegin(STRING); }
     {Identifier}  { return MscTypes.IDENTIFIER; }
 
     {LineComment}    { /*return MscTypes.COMMENT;*/ }
@@ -104,24 +108,35 @@ Identifier  = \p{Alpha}\w*
 }
 
 //------------------------------------------------------------------------------
-<ATTR> {
-  "["           { return MscTypes.OPEN_SQUARE; }
-  "]"           { yybegin(MSC_SECTION); yypushback(1); }
-  "="           { return MscTypes.EQUALS; }
-  ","           { return MscTypes.COMMA; }
-
-  \"             { inString.setLength(0); yybegin(ATTR_STRING); }
-  {Identifier}     { return MscTypes.IDENTIFIER; }
-//  {StringLiteral}  { return MscTypes.STRING; }
-
-  {LineComment}    { /*return MscTypes.COMMENT;*/ }
-  {Whitespace}     { return TokenType.WHITE_SPACE; }
-}
+//<ATTR> {
+//  "["           { return MscTypes.OPEN_SQUARE; }
+//  "]"           { yybegin(MSC_SECTION); yypushback(1); }
+//  "="           { return MscTypes.EQUALS; }
+//  ","           { return MscTypes.COMMA; }
+//
+//  \"             { inString.setLength(0); yybegin(ATTR_STRING); }
+//  {Identifier}     { return MscTypes.IDENTIFIER; }
+////  {StringLiteral}  { return MscTypes.STRING; }
+//
+//  {LineComment}    { /*return MscTypes.COMMENT;*/ }
+//  {Whitespace}     { return TokenType.WHITE_SPACE; }
+//}
 
 //------------------------------------------------------------------------------
 <ATTR_STRING> {
     \"            { yybegin(ATTR); return MscTypes.STRING_LIT;
                   // return new MscStringImpl(inString.toString());
+                  }
+    [^\n\r\"\\]+  { inString.append( yytext() ); }
+    \\t           { inString.append('\t'); }
+    \\n           { inString.append('\n'); }
+    \\r           { inString.append('\r'); }
+    \\\"          { inString.append('\"'); }
+    \\            { inString.append('\\'); }
+}
+
+<STRING> {
+    \"            { yybegin(MSC_SECTION); return MscTypes.STRING_LIT;
                   }
     [^\n\r\"\\]+  { inString.append( yytext() ); }
     \\t           { inString.append('\t'); }

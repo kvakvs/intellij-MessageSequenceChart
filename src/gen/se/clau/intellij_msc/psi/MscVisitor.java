@@ -15,7 +15,15 @@ public class MscVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAttrList(@NotNull MscAttrList o) {
+    visitPsiElement(o);
+  }
+
   public void visitElement(@NotNull MscElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitEntity(@NotNull MscEntity o) {
     visitPsiElement(o);
   }
 
@@ -35,7 +43,15 @@ public class MscVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOptionList(@NotNull MscOptionList o) {
+    visitPsiElement(o);
+  }
+
   public void visitSkip(@NotNull MscSkip o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSkipCommand(@NotNull MscSkipCommand o) {
     visitPsiElement(o);
   }
 

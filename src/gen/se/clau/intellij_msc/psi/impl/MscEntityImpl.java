@@ -11,14 +11,14 @@ import static se.clau.intellij_msc.MscTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import se.clau.intellij_msc.psi.*;
 
-public class MscEntityListImpl extends ASTWrapperPsiElement implements MscEntityList {
+public class MscEntityImpl extends ASTWrapperPsiElement implements MscEntity {
 
-  public MscEntityListImpl(@NotNull ASTNode node) {
+  public MscEntityImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MscVisitor visitor) {
-    visitor.visitEntityList(this);
+    visitor.visitEntity(this);
   }
 
   @Override
@@ -28,15 +28,21 @@ public class MscEntityListImpl extends ASTWrapperPsiElement implements MscEntity
   }
 
   @Override
-  @NotNull
-  public List<MscEntity> getEntityList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscEntity.class);
+  @Nullable
+  public MscAttrBlock getAttrBlock() {
+    return findChildByClass(MscAttrBlock.class);
   }
 
   @Override
-  @NotNull
-  public PsiElement getSemicolon() {
-    return findNotNullChildByType(SEMICOLON);
+  @Nullable
+  public MscString getString() {
+    return findChildByClass(MscString.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

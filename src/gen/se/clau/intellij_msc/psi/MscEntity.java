@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MscSkip extends PsiElement {
+public interface MscEntity extends PsiElement {
 
   @Nullable
   MscAttrBlock getAttrBlock();
 
-  @NotNull
-  MscSkipCommand getSkipCommand();
+  @Nullable
+  MscString getString();
 
-  @NotNull
-  PsiElement getSemicolon();
+  @Nullable
+  PsiElement getIdentifier();
 
 }

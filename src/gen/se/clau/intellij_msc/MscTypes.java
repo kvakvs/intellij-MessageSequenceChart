@@ -12,12 +12,16 @@ public interface MscTypes {
 
   IElementType ATTR = new MscElementType("ATTR");
   IElementType ATTR_BLOCK = new MscElementType("ATTR_BLOCK");
+  IElementType ATTR_LIST = new MscElementType("ATTR_LIST");
   IElementType ELEMENT = new MscElementType("ELEMENT");
+  IElementType ENTITY = new MscElementType("ENTITY");
   IElementType ENTITY_LIST = new MscElementType("ENTITY_LIST");
   IElementType MESSAGE = new MscElementType("MESSAGE");
   IElementType OPTION = new MscElementType("OPTION");
   IElementType OPTION_LINE = new MscElementType("OPTION_LINE");
+  IElementType OPTION_LIST = new MscElementType("OPTION_LIST");
   IElementType SKIP = new MscElementType("SKIP");
+  IElementType SKIP_COMMAND = new MscElementType("SKIP_COMMAND");
   IElementType STRING = new MscElementType("STRING");
 
   IElementType ANGLE_BOX = new MscTokenType("abox");
@@ -60,8 +64,14 @@ public interface MscTypes {
       else if (type == ATTR_BLOCK) {
         return new MscAttrBlockImpl(node);
       }
+      else if (type == ATTR_LIST) {
+        return new MscAttrListImpl(node);
+      }
       else if (type == ELEMENT) {
         return new MscElementImpl(node);
+      }
+      else if (type == ENTITY) {
+        return new MscEntityImpl(node);
       }
       else if (type == ENTITY_LIST) {
         return new MscEntityListImpl(node);
@@ -75,8 +85,14 @@ public interface MscTypes {
       else if (type == OPTION_LINE) {
         return new MscOptionLineImpl(node);
       }
+      else if (type == OPTION_LIST) {
+        return new MscOptionListImpl(node);
+      }
       else if (type == SKIP) {
         return new MscSkipImpl(node);
+      }
+      else if (type == SKIP_COMMAND) {
+        return new MscSkipCommandImpl(node);
       }
       else if (type == STRING) {
         return new MscStringImpl(node);

@@ -11,6 +11,7 @@
     elementTypeHolderClass="se.clau.intellij_msc.MscTypes"
     elementTypeClass="se.clau.intellij_msc.psi.MscElementType"
     tokenTypeClass="se.clau.intellij_msc.psi.MscTokenType"
+
     tokens = [
 //        space   = 'regexp:[\s\r\n]+'
 //        comment = 'regexp:(//|#).*'
@@ -55,8 +56,6 @@
         COMMENT = "<comment>"
     ]
     generateTokenAccessors=true
-
-//    implements("string")="se.clau.intellij_msc.psi.MscString"
 }
 
 file ::= MSC_KEYWORD '{' element+ '}'
@@ -66,25 +65,26 @@ element ::= (option_line | entity_list | skip | message)
 
 // A key="value" option
 option_line ::= option_list ';'
-private option_list ::= option (',' option)*
+option_list ::= option (',' option)*
 option ::= IDENTIFIER '=' string
 
-// A word, entity, with optional [key=value] options block
+// List of column names, with optional [key=value] options block for each
 entity_list ::= entity (',' entity)* ';'
-private entity ::= column_name attr_block?
+entity ::= column_name attr_block?
+
 // Column name must be string if it contains spaces
 private column_name ::= IDENTIFIER | string
 
-// A skip element, creates vertical spacing
+// A vertical spacing element
 // ... - creates a vertical ... skip
 // ||| creates extra vertical space
 // --- creates horizontal dashed breakline
 skip ::= skip_command attr_block? ';'
-private skip_command ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH)
+skip_command ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH)
 
 // a [key=value] attribute block, can be appended to entity, or to a message line
-attr_block ::= '[' attr_list ']'
-private attr_list ::= attr (',' attr)*
+attr_block ::= '[' attr_list? ']'
+attr_list ::= attr (',' attr)*
 attr ::= IDENTIFIER '=' string
 
 string ::= STRING_LIT
