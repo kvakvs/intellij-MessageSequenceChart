@@ -18,46 +18,50 @@ class MscSyntaxHighlighter : SyntaxHighlighterBase() {
         return when (tokenType) {
             MscTypes.COMMENT -> COMMENT_KEYS
             MscTypes.IDENTIFIER -> IDENT_KEYS
-            MscTypes.STRING -> STRING_KEYS
+            MscTypes.STRING, MscTypes.STRING_LIT -> STRING_KEYS
             TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
             else -> EMPTY_KEYS
         }
     }
 
     companion object {
-        private val COMMENT = TextAttributesKey.createTextAttributesKey(
-                "MSC_COMMENT",
-                DefaultLanguageHighlighterColors.LINE_COMMENT
+        val COMMENT = TextAttributesKey.createTextAttributesKey(
+            "MSC_COMMENT",
+            DefaultLanguageHighlighterColors.LINE_COMMENT
         )
-        private val STRING = TextAttributesKey.createTextAttributesKey(
-                "MSC_STRING",
-                DefaultLanguageHighlighterColors.STRING
-        )
-        private val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey(
-                "MSC_BAD_CHARACTER",
-                HighlighterColors.BAD_CHARACTER
-        )
-        private val KEYWORD = TextAttributesKey.createTextAttributesKey(
-                "MSC_KEYWORD",
-                DefaultLanguageHighlighterColors.KEYWORD
-        )
-        private val CLASS_NAME = TextAttributesKey.createTextAttributesKey(
-                "MSC_CLASS",
-                DefaultLanguageHighlighterColors.CLASS_NAME
-        )
-        private val IDENT = TextAttributesKey.createTextAttributesKey(
-                "MSC_IDENT",
-                DefaultLanguageHighlighterColors.IDENTIFIER
-        )
-
-        private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
         private val COMMENT_KEYS = arrayOf(COMMENT)
+
+        val STRING = TextAttributesKey.createTextAttributesKey(
+            "MSC_STRING",
+            DefaultLanguageHighlighterColors.STRING
+        )
         private val STRING_KEYS = arrayOf(STRING)
 
-        //private val LINE_CONTENT_KEYS = arrayOf(LINE_CONTENT)
-        //private val KEYWORD_KEYS = arrayOf(KEYWORD)
-        //private val CLASS_KEYS = arrayOf(CLASS_NAME)
+        val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey(
+            "MSC_BAD_CHARACTER",
+            HighlighterColors.BAD_CHARACTER
+        )
+        private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
+
+        val KEYWORD = TextAttributesKey.createTextAttributesKey(
+            "MSC_KEYWORD",
+            DefaultLanguageHighlighterColors.KEYWORD
+        )
+        // val KEYWORD_KEYS = arrayOf(KEYWORD)
+
+//        val CLASS_NAME = TextAttributesKey.createTextAttributesKey(
+//            "MSC_CLASS",
+//            DefaultLanguageHighlighterColors.CLASS_NAME
+//        )
+//        val CLASS_KEYS = arrayOf(CLASS_NAME)
+
+        val IDENT = TextAttributesKey.createTextAttributesKey(
+            "MSC_IDENT",
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
         private val IDENT_KEYS = arrayOf(IDENT)
+
+        // val LINE_CONTENT_KEYS = arrayOf(LINE_CONTENT)
         private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
     }
 }

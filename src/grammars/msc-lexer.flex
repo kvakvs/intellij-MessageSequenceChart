@@ -3,14 +3,18 @@ package se.clau.intellij_msc.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.openapi.diagnostic.Logger;
+
 import se.clau.intellij_msc.MscTypes;
-import se.clau.intellij_msc.psi.MscString;import se.clau.intellij_msc.psi.impl.MscStringImpl;
+import se.clau.intellij_msc.psi.MscString;
+import se.clau.intellij_msc.psi.impl.MscStringImpl;
 
 %%
 
 %{
     public int yyline;
     StringBuffer inString = new StringBuffer();
+    final static Logger LOG = Logger.getInstance(_MscLexer.class);
 
     public _MscLexer() {
         this((java.io.Reader)null);
@@ -34,9 +38,10 @@ LineComment  = ("//" | '#') .*
 
 OptionName = "hscale" | "width" | "arcgradient" | "wordwraparcs"
 
-StringLiteral = [\"] [^\"]* [\"]
-//Identifier  = [_a-z][_a-zA-Z0-9]*
-Identifier  = \p{Alpha}\w*
+//StringLiteral = [\"] [^\"]* [\"]
+
+Identifier  = [a-z][a-zA-Z]*
+//Identifier  = \p{Alpha}\w*
 
 %function advance
 %unicode
@@ -44,10 +49,8 @@ Identifier  = \p{Alpha}\w*
 %type IElementType
 //%column
 
-%state ATTR_STRING
 %state STRING
-%state MSC_SECTION
-%state ATTR
+%state IN_BLOCK_COMMENT
 
 %%
 
@@ -56,94 +59,69 @@ Identifier  = \p{Alpha}\w*
 //  {ShebangLine}    { return getTokenStart() == 0
 //                        ? MscTypes.SHEBANG
 //                        : com.intellij.psi.TokenType.ERROR_ELEMENT; }
-  "msc"         { return MscTypes.MSC_KEYWORD; }
-  "{"           { yybegin(MSC_SECTION); yypushback(1); }
-  "}"           { return MscTypes.CLOSE_CURLY; }
-  {LineComment}    { /*return MscTypes.COMMENT;*/ }
-  {Whitespace}     { return TokenType.WHITE_SPACE; }
-}
+    "msc"         { return MscTypes.MSC_KEYWORD; }
+    "/*"          { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
 
-//------------------------------------------------------------------------------
-<MSC_SECTION> {
-    ";"           { return MscTypes.SEMICOLON; }
-    ","           { return MscTypes.COMMA; }
+    ";"         { return MscTypes.SEMICOLON; }
+    ","         { return MscTypes.COMMA; }
 
-    "{"           { return MscTypes.OPEN_CURLY; }
-    "}"           { yybegin(YYINITIAL); yypushback(1); }
+    "{"         { return MscTypes.OPEN_CURLY; }
+    "}"         { return MscTypes.CLOSE_CURLY; }
 
-//    "["           { yybegin(ATTR); yypushback(1); }
-    "["           { return MscTypes.OPEN_SQUARE; }
-    "]"           { return MscTypes.CLOSE_SQUARE; }
-    "="           { return MscTypes.EQUALS; }
+    "["         { return MscTypes.OPEN_SQUARE; }
+    "]"         { return MscTypes.CLOSE_SQUARE; }
+
+    "->"        { return MscTypes.ARROW_R; }
+    "=>"        { return MscTypes.DARROW_R; }
+    "-x"        { return MscTypes.XARROW_R; }
+    ">>"        { return MscTypes.ARROW_RR; }
+    ":>"        { return MscTypes.EMPHASIZED_ARROW_R; }
+    "->*"       { return MscTypes.BROADCAST_ARROW_R; }
+
+    "<-"        { return MscTypes.ARROW_L; }
+    "<="        { return MscTypes.DARROW_L; }
+    "x-"        { return MscTypes.XARROW_L; }
+    "<<"        { return MscTypes.ARROW_LL; }
+    "<:"        { return MscTypes.EMPHASIZED_ARROW_L; }
+    "*<-"       { return MscTypes.BROADCAST_ARROW_L; }
+
+    "box"       { return MscTypes.BOX; }
+    "abox"      { return MscTypes.ANGLE_BOX; }
+    "rbox"      { return MscTypes.ROUNDED_BOX; }
+    "note"      { return MscTypes.NOTE_BOX; }
 
     // Vertical Separators
     "..."         { return MscTypes.ELLIPSIS; }
     "|||"         { return MscTypes.TRIPLE_BAR; }
     "---"         { return MscTypes.TRIPLE_DASH; }
+    "="           { return MscTypes.EQUALS; }
 
-    '->'        { return MscTypes.ARROW_R; }
-    '=>'        { return MscTypes.DARROW_R; }
-    '-x'        { return MscTypes.XARROW_R; }
-    '>>'        { return MscTypes.ARROW_RR; }
-    ':>'        { return MscTypes.EMPHASIZED_ARROW_R; }
-    '->\*'      { return MscTypes.BROADCAST_ARROW_R; }
-
-    '<-'        { return MscTypes.ARROW_L; }
-    '<='        { return MscTypes.DARROW_L; }
-    'x-'        { return MscTypes.XARROW_L; }
-    '<<'        { return MscTypes.ARROW_LL; }
-    '<:'        { return MscTypes.EMPHASIZED_ARROW_L; }
-    '\*<-'      { return MscTypes.BROADCAST_ARROW_L; }
-
-    'box'       { return MscTypes.BOX; }
-    'abox'      { return MscTypes.ANGLE_BOX; }
-    'rbox'      { return MscTypes.ROUNDED_BOX; }
-    'note'      { return MscTypes.NOTE_BOX; }
-
-    \"             { inString.setLength(0); yybegin(STRING); }
-    {Identifier}  { return MscTypes.IDENTIFIER; }
+    \"            { inString.setLength(0); yybegin(STRING); }
+    {Identifier}  {
+//          LOG.info("ident:" + yytext());
+          return MscTypes.IDENTIFIER;
+      }
 
     {LineComment}    { /*return MscTypes.COMMENT;*/ }
-    {Whitespace}     { return TokenType.WHITE_SPACE; }
+    {Whitespace}     { /*return TokenType.WHITE_SPACE;*/ }
 }
 
 //------------------------------------------------------------------------------
-//<ATTR> {
-//  "["           { return MscTypes.OPEN_SQUARE; }
-//  "]"           { yybegin(MSC_SECTION); yypushback(1); }
-//  "="           { return MscTypes.EQUALS; }
-//  ","           { return MscTypes.COMMA; }
-//
-//  \"             { inString.setLength(0); yybegin(ATTR_STRING); }
-//  {Identifier}     { return MscTypes.IDENTIFIER; }
-////  {StringLiteral}  { return MscTypes.STRING; }
-//
-//  {LineComment}    { /*return MscTypes.COMMENT;*/ }
-//  {Whitespace}     { return TokenType.WHITE_SPACE; }
-//}
-
-//------------------------------------------------------------------------------
-<ATTR_STRING> {
-    \"            { yybegin(ATTR); return MscTypes.STRING_LIT;
-                  // return new MscStringImpl(inString.toString());
-                  }
-    [^\n\r\"\\]+  { inString.append( yytext() ); }
-    \\t           { inString.append('\t'); }
-    \\n           { inString.append('\n'); }
-    \\r           { inString.append('\r'); }
-    \\\"          { inString.append('\"'); }
-    \\            { inString.append('\\'); }
-}
-
 <STRING> {
-    \"            { yybegin(MSC_SECTION); return MscTypes.STRING_LIT;
-                  }
+    \"            { yybegin(YYINITIAL); return MscTypes.STRING_LIT; }
     [^\n\r\"\\]+  { inString.append( yytext() ); }
     \\t           { inString.append('\t'); }
     \\n           { inString.append('\n'); }
     \\r           { inString.append('\r'); }
     \\\"          { inString.append('\"'); }
     \\            { inString.append('\\'); }
+}
+
+//------------------------------------------------------------------------------
+<IN_BLOCK_COMMENT> {
+  "*/"    { yybegin(YYINITIAL); return MscTypes.COMMENT; }
+  <<EOF>> { yybegin(YYINITIAL); return MscTypes.COMMENT; }
+  [^]     { }
 }
 
 //------------------------------------------------------------------------------

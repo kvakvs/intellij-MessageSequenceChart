@@ -27,10 +27,10 @@
     <lang.parserDefinition language="MessageSequenceChart"
                            implementationClass="se.clau.intellij_msc.psi.MscParserDefinition"/>
     <lang.syntaxHighlighterFactory
-        language="MessageSequenceChart"
-        implementationClass="se.clau.intellij_msc.MscSyntaxHighlighterFactory"/>
-<!--    <colorSettingsPage-->
-<!--        implementation="se.clau.intellij_msc.MscColorSettingsPage"/>-->
+            language="MessageSequenceChart"
+            implementationClass="se.clau.intellij_msc.MscSyntaxHighlighterFactory"/>
+    <colorSettingsPage
+            implementation="se.clau.intellij_msc.MscColorSettingsPage"/>
   </extensions>
 
   <actions>
