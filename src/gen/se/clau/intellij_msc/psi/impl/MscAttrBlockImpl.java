@@ -29,8 +29,20 @@ public class MscAttrBlockImpl extends ASTWrapperPsiElement implements MscAttrBlo
 
   @Override
   @NotNull
-  public List<MscOption> getOptionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscOption.class);
+  public List<MscAttr> getAttrList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscAttr.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getCloseSquare() {
+    return findNotNullChildByType(CLOSE_SQUARE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getOpenSquare() {
+    return findNotNullChildByType(OPEN_SQUARE);
   }
 
 }

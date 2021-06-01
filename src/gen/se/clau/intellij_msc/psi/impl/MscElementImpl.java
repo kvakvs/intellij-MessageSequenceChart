@@ -41,8 +41,38 @@ public class MscElementImpl extends ASTWrapperPsiElement implements MscElement {
 
   @Override
   @Nullable
+  public MscMessage getMessage() {
+    return findChildByClass(MscMessage.class);
+  }
+
+  @Override
+  @Nullable
   public MscOptionLine getOptionLine() {
     return findChildByClass(MscOptionLine.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEllipsis() {
+    return findChildByType(ELLIPSIS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemicolon() {
+    return findChildByType(SEMICOLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getTripleBar() {
+    return findChildByType(TRIPLE_BAR);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getTripleDash() {
+    return findChildByType(TRIPLE_DASH);
   }
 
 }

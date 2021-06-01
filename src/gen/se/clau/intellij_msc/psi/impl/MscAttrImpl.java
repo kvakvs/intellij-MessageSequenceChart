@@ -11,14 +11,14 @@ import static se.clau.intellij_msc.MscTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import se.clau.intellij_msc.psi.*;
 
-public class MscOptionImpl extends ASTWrapperPsiElement implements MscOption {
+public class MscAttrImpl extends ASTWrapperPsiElement implements MscAttr {
 
-  public MscOptionImpl(@NotNull ASTNode node) {
+  public MscAttrImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MscVisitor visitor) {
-    visitor.visitOption(this);
+    visitor.visitAttr(this);
   }
 
   @Override

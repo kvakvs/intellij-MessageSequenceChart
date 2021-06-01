@@ -14,6 +14,21 @@ public interface MscElement extends PsiElement {
   MscEntityList getEntityList();
 
   @Nullable
+  MscMessage getMessage();
+
+  @Nullable
   MscOptionLine getOptionLine();
+
+  @Nullable
+  PsiElement getEllipsis();
+
+  @Nullable
+  PsiElement getSemicolon();
+
+  @Nullable
+  PsiElement getTripleBar();
+
+  @Nullable
+  PsiElement getTripleDash();
 
 }

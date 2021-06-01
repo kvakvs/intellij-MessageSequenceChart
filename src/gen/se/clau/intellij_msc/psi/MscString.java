@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MscOptionLine extends PsiElement {
+public interface MscString extends PsiElement {
 
   @NotNull
-  List<MscOption> getOptionList();
-
-  @NotNull
-  PsiElement getSemicolon();
+  PsiElement getStringLit();
 
 }

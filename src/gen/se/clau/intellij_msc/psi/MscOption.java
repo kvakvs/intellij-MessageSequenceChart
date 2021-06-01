@@ -7,4 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface MscOption extends PsiElement {
 
+  @NotNull
+  MscString getString();
+
+  @NotNull
+  PsiElement getEquals();
+
+  @NotNull
+  PsiElement getIdentifier();
+
 }

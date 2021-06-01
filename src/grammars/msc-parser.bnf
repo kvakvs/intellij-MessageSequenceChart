@@ -12,17 +12,15 @@
     elementTypeClass="se.clau.intellij_msc.psi.MscElementType"
     tokenTypeClass="se.clau.intellij_msc.psi.MscTokenType"
     tokens = [
-        space   = 'regexp:[\s\r\n]+'
-        comment = 'regexp:(//|#).*'
-        number  = 'regexp:\d+(\.\d*)?'
-        id      = 'regexp:\p{Alpha}\w*'
-        string  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+//        space   = 'regexp:[\s\r\n]+'
+//        comment = 'regexp:(//|#).*'
+//        number  = 'regexp:\d+(\.\d*)?'
+//        id      = 'regexp:\p{Alpha}\w*'
+//        string  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
 
-//        MSC_KEYWORD     = "msc"
-
-        COMMENT     = "<comment>"
         SEMICOLON   = ';'
         COMMA       = ','
+        EQUALS      = '='
 
         OPEN_CURLY  = '{'
         CLOSE_CURLY = '}'
@@ -32,24 +30,66 @@
         ELLIPSIS    = '...'
         TRIPLE_BAR  = '|||'
         TRIPLE_DASH  = '---'
+
+        ARROW_R  = '->'
+        DARROW_R = '=>'
+        XARROW_R = '-x'
+        ARROW_RR = '>>'
+        EMPHASIZED_ARROW_R = ':>'
+        BROADCAST_ARROW_R = '->*'
+
+        ARROW_L  = '<-'
+        DARROW_L = '<='
+        XARROW_L = 'x-'
+        ARROW_LL = '<<'
+        EMPHASIZED_ARROW_L = '<:'
+        BROADCAST_ARROW_L = '*<-'
+
+        BOX = 'box'
+        ROUNDED_BOX = 'rbox'
+        ANGLE_BOX = 'abox'
+        NOTE_BOX = 'note'
+
+        IDENTIFIER = "<identifier>"
+        STRING_LIT = "<string>"
+        COMMENT = "<comment>"
     ]
+    generateTokenAccessors=true
+
+//    implements("string")="se.clau.intellij_msc.psi.MscString"
 }
 
 file ::= MSC_KEYWORD '{' element+ '}'
 
 // contents inside msc { ... } - msc options, entity list or message links
-element ::= (option_line | entity_list | skip | COMMENT)
+element ::= (option_line | entity_list | skip | message)
 
 // A key="value" option
-option_line ::= option (',' option)* ';'
-option ::= OPTION_NAME '=' STRING
+option_line ::= option_list ';'
+private option_list ::= option (',' option)*
+option ::= IDENTIFIER '=' string
 
 // A word, entity, with optional [key=value] options block
 entity_list ::= entity (',' entity)* ';'
-private entity ::= (ENTITY_NAME | STRING) attr_block?
+private entity ::= column_name attr_block?
+// Column name must be string if it contains spaces
+private column_name ::= IDENTIFIER | string
 
 // A skip element, creates vertical spacing
+// ... - creates a vertical ... skip
+// ||| creates extra vertical space
+// --- creates horizontal dashed breakline
 private skip ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH) attr_block? ';'
 
 // a [key=value] attribute block
-attr_block ::= '[' option (',' option)* ']'
+attr_block ::= '[' attr_list ']'
+private attr_list ::= attr (',' attr)*
+attr ::= IDENTIFIER '=' string
+
+string ::= STRING_LIT
+
+// Link between columns, a message
+message ::= column_name arrow_token column_name attr_block? ';'
+private arrow_token ::= '->' | '=>' | '-x' | '>>' | ':>' | '->*'
+                      | '<=' | '<-' | 'x-' | '<<' | '<:' | '*<-'
+                      | 'box' | 'abox' | 'rbox' | 'note'

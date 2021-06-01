@@ -33,4 +33,10 @@ public class MscOptionLineImpl extends ASTWrapperPsiElement implements MscOption
     return PsiTreeUtil.getChildrenOfTypeAsList(this, MscOption.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getSemicolon() {
+    return findNotNullChildByType(SEMICOLON);
+  }
+
 }

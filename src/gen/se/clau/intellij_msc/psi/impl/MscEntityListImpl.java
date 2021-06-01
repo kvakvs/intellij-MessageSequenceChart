@@ -33,4 +33,16 @@ public class MscEntityListImpl extends ASTWrapperPsiElement implements MscEntity
     return PsiTreeUtil.getChildrenOfTypeAsList(this, MscAttrBlock.class);
   }
 
+  @Override
+  @NotNull
+  public List<MscString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MscString.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemicolon() {
+    return findNotNullChildByType(SEMICOLON);
+  }
+
 }

@@ -10,4 +10,10 @@ public interface MscEntityList extends PsiElement {
   @NotNull
   List<MscAttrBlock> getAttrBlockList();
 
+  @NotNull
+  List<MscString> getStringList();
+
+  @NotNull
+  PsiElement getSemicolon();
+
 }

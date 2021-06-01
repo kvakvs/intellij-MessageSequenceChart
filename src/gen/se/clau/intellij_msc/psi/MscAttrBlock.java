@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface MscAttrBlock extends PsiElement {
 
   @NotNull
-  List<MscOption> getOptionList();
+  List<MscAttr> getAttrList();
+
+  @NotNull
+  PsiElement getCloseSquare();
+
+  @NotNull
+  PsiElement getOpenSquare();
 
 }
