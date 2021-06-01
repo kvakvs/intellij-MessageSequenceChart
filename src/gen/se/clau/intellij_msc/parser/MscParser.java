@@ -318,25 +318,15 @@ public class MscParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH) attr_block? ';'
-  static boolean skip(PsiBuilder builder_, int level_) {
+  // skip_command attr_block? ';'
+  public static boolean skip(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "skip")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = skip_0(builder_, level_ + 1);
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, SKIP, "<skip>");
+    result_ = skip_command(builder_, level_ + 1);
     result_ = result_ && skip_1(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, SEMICOLON);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH
-  private static boolean skip_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "skip_0")) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, ELLIPSIS);
-    if (!result_) result_ = consumeToken(builder_, TRIPLE_BAR);
-    if (!result_) result_ = consumeToken(builder_, TRIPLE_DASH);
+    exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
@@ -345,6 +335,17 @@ public class MscParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(builder_, level_, "skip_1")) return false;
     attr_block(builder_, level_ + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH
+  static boolean skip_command(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "skip_command")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, ELLIPSIS);
+    if (!result_) result_ = consumeToken(builder_, TRIPLE_BAR);
+    if (!result_) result_ = consumeToken(builder_, TRIPLE_DASH);
+    return result_;
   }
 
   /* ********************************************************** */

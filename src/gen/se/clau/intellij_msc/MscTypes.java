@@ -17,6 +17,7 @@ public interface MscTypes {
   IElementType MESSAGE = new MscElementType("MESSAGE");
   IElementType OPTION = new MscElementType("OPTION");
   IElementType OPTION_LINE = new MscElementType("OPTION_LINE");
+  IElementType SKIP = new MscElementType("SKIP");
   IElementType STRING = new MscElementType("STRING");
 
   IElementType ANGLE_BOX = new MscTokenType("abox");
@@ -73,6 +74,9 @@ public interface MscTypes {
       }
       else if (type == OPTION_LINE) {
         return new MscOptionLineImpl(node);
+      }
+      else if (type == SKIP) {
+        return new MscSkipImpl(node);
       }
       else if (type == STRING) {
         return new MscStringImpl(node);

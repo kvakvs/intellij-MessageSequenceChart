@@ -79,9 +79,10 @@ private column_name ::= IDENTIFIER | string
 // ... - creates a vertical ... skip
 // ||| creates extra vertical space
 // --- creates horizontal dashed breakline
-private skip ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH) attr_block? ';'
+skip ::= skip_command attr_block? ';'
+private skip_command ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH)
 
-// a [key=value] attribute block
+// a [key=value] attribute block, can be appended to entity, or to a message line
 attr_block ::= '[' attr_list ']'
 private attr_list ::= attr (',' attr)*
 attr ::= IDENTIFIER '=' string

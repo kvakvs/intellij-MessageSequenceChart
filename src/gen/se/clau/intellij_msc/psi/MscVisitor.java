@@ -35,6 +35,10 @@ public class MscVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSkip(@NotNull MscSkip o) {
+    visitPsiElement(o);
+  }
+
   public void visitString(@NotNull MscString o) {
     visitPsiElement(o);
   }

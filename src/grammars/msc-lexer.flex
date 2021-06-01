@@ -64,19 +64,19 @@ Identifier  = \p{Alpha}\w*
 
 //------------------------------------------------------------------------------
 <MSC_SECTION> {
-  ";"           { return MscTypes.SEMICOLON; }
-  ","           { return MscTypes.COMMA; }
+    ";"           { return MscTypes.SEMICOLON; }
+    ","           { return MscTypes.COMMA; }
 
-  "{"           { return MscTypes.OPEN_CURLY; }
-  "}"           { yybegin(YYINITIAL); yypushback(1); }
+    "{"           { return MscTypes.OPEN_CURLY; }
+    "}"           { yybegin(YYINITIAL); yypushback(1); }
 
-  "["           { yybegin(ATTR); yypushback(1); }
-  "]"           { return MscTypes.CLOSE_SQUARE; }
+    "["           { yybegin(ATTR); yypushback(1); }
+    "]"           { return MscTypes.CLOSE_SQUARE; }
 
-  // Vertical Separators
-  "..."         { return MscTypes.ELLIPSIS; }
-  "|||"         { return MscTypes.TRIPLE_BAR; }
-  "---"         { return MscTypes.TRIPLE_DASH; }
+    // Vertical Separators
+    "..."         { return MscTypes.ELLIPSIS; }
+    "|||"         { return MscTypes.TRIPLE_BAR; }
+    "---"         { return MscTypes.TRIPLE_DASH; }
 
     '->'        { return MscTypes.ARROW_R; }
     '=>'        { return MscTypes.DARROW_R; }
@@ -97,10 +97,10 @@ Identifier  = \p{Alpha}\w*
     'rbox'      { return MscTypes.ROUNDED_BOX; }
     'note'      { return MscTypes.NOTE_BOX; }
 
-  {Identifier}  { return MscTypes.IDENTIFIER; }
+    {Identifier}  { return MscTypes.IDENTIFIER; }
 
-  {LineComment}    { /*return MscTypes.COMMENT;*/ }
-  {Whitespace}     { return TokenType.WHITE_SPACE; }
+    {LineComment}    { /*return MscTypes.COMMENT;*/ }
+    {Whitespace}     { return TokenType.WHITE_SPACE; }
 }
 
 //------------------------------------------------------------------------------

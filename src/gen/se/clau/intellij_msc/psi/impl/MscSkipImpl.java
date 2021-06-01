@@ -11,14 +11,14 @@ import static se.clau.intellij_msc.MscTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import se.clau.intellij_msc.psi.*;
 
-public class MscElementImpl extends ASTWrapperPsiElement implements MscElement {
+public class MscSkipImpl extends ASTWrapperPsiElement implements MscSkip {
 
-  public MscElementImpl(@NotNull ASTNode node) {
+  public MscSkipImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MscVisitor visitor) {
-    visitor.visitElement(this);
+    visitor.visitSkip(this);
   }
 
   @Override
@@ -29,26 +29,32 @@ public class MscElementImpl extends ASTWrapperPsiElement implements MscElement {
 
   @Override
   @Nullable
-  public MscEntityList getEntityList() {
-    return findChildByClass(MscEntityList.class);
+  public MscAttrBlock getAttrBlock() {
+    return findChildByClass(MscAttrBlock.class);
   }
 
   @Override
   @Nullable
-  public MscMessage getMessage() {
-    return findChildByClass(MscMessage.class);
+  public PsiElement getEllipsis() {
+    return findChildByType(ELLIPSIS);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemicolon() {
+    return findNotNullChildByType(SEMICOLON);
   }
 
   @Override
   @Nullable
-  public MscOptionLine getOptionLine() {
-    return findChildByClass(MscOptionLine.class);
+  public PsiElement getTripleBar() {
+    return findChildByType(TRIPLE_BAR);
   }
 
   @Override
   @Nullable
-  public MscSkip getSkip() {
-    return findChildByClass(MscSkip.class);
+  public PsiElement getTripleDash() {
+    return findChildByType(TRIPLE_DASH);
   }
 
 }
