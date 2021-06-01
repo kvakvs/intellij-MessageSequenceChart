@@ -19,6 +19,7 @@
 //        id      = 'regexp:\p{Alpha}\w*'
 //        string  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
 
+        MSC_KEYWORD = '<msc keyword>'
         SEMICOLON   = ';'
         COMMA       = ','
         EQUALS      = '='
@@ -58,7 +59,8 @@
     generateTokenAccessors=true
 }
 
-file ::= MSC_KEYWORD '{' element+ '}'
+// Parse bug: MSC keyword is not recognized but is an identifier?
+file ::= (MSC_KEYWORD | IDENTIFIER) '{' element* '}'
 
 // contents inside msc { ... } - msc options, entity list or message links
 element ::= (option_line | entity_list | skip | message)
@@ -66,7 +68,7 @@ element ::= (option_line | entity_list | skip | message)
 // A key="value" option
 option_line ::= option_list ';'
 option_list ::= option (',' option)*
-option ::= IDENTIFIER '=' string
+option ::= IDENTIFIER '=' column_name
 
 // List of column names, with optional [key=value] options block for each
 entity_list ::= entity (',' entity)* ';'
@@ -85,7 +87,7 @@ skip_command ::= (ELLIPSIS | TRIPLE_BAR | TRIPLE_DASH)
 // a [key=value] attribute block, can be appended to entity, or to a message line
 attr_block ::= '[' attr_list? ']'
 attr_list ::= attr (',' attr)*
-attr ::= IDENTIFIER '=' string
+attr ::= IDENTIFIER '=' column_name
 
 string ::= STRING_LIT
 

@@ -28,21 +28,15 @@ public class MscAttrImpl extends ASTWrapperPsiElement implements MscAttr {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public MscString getString() {
-    return findNotNullChildByClass(MscString.class);
+    return findChildByClass(MscString.class);
   }
 
   @Override
   @NotNull
   public PsiElement getEquals() {
     return findNotNullChildByType(EQUALS);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

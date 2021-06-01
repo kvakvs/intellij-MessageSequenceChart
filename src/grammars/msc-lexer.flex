@@ -59,8 +59,8 @@ Identifier  = [a-z][a-zA-Z]*
 //  {ShebangLine}    { return getTokenStart() == 0
 //                        ? MscTypes.SHEBANG
 //                        : com.intellij.psi.TokenType.ERROR_ELEMENT; }
-    "msc"         { return MscTypes.MSC_KEYWORD; }
-    "/*"          { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
+    'msc' \s*   { return MscTypes.MSC_KEYWORD; }
+    "/*"        { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
 
     ";"         { return MscTypes.SEMICOLON; }
     ","         { return MscTypes.COMMA; }
@@ -97,13 +97,10 @@ Identifier  = [a-z][a-zA-Z]*
     "="           { return MscTypes.EQUALS; }
 
     \"            { inString.setLength(0); yybegin(STRING); }
-    {Identifier}  {
-//          LOG.info("ident:" + yytext());
-          return MscTypes.IDENTIFIER;
-      }
+    {Identifier}  { return MscTypes.IDENTIFIER; }
 
-    {LineComment}    { /*return MscTypes.COMMENT;*/ }
-    {Whitespace}     { /*return TokenType.WHITE_SPACE;*/ }
+    {LineComment}    { return MscTypes.COMMENT; }
+    {Whitespace}     { return TokenType.WHITE_SPACE; }
 }
 
 //------------------------------------------------------------------------------

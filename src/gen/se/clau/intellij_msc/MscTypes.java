@@ -43,7 +43,7 @@ public interface MscTypes {
   IElementType EMPHASIZED_ARROW_R = new MscTokenType(":>");
   IElementType EQUALS = new MscTokenType("=");
   IElementType IDENTIFIER = new MscTokenType("<identifier>");
-  IElementType MSC_KEYWORD = new MscTokenType("MSC_KEYWORD");
+  IElementType MSC_KEYWORD = new MscTokenType("<msc keyword>");
   IElementType NOTE_BOX = new MscTokenType("note");
   IElementType OPEN_CURLY = new MscTokenType("{");
   IElementType OPEN_SQUARE = new MscTokenType("[");

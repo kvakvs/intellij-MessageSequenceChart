@@ -17,28 +17,21 @@ import se.clau.intellij_msc.MscTypes
 import se.clau.intellij_msc.parser.MscParser
 
 class MscParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project): Lexer = MscLexerAdapter()
-    override fun createParser(project: Project): PsiParser = MscParser()
+  override fun createLexer(project: Project): Lexer = MscLexerAdapter()
+  override fun createParser(project: Project): PsiParser = MscParser()
 
-    override fun getWhitespaceTokens(): TokenSet = ALL_WHITESPACE
+  override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
 
-    override fun getCommentTokens(): TokenSet = ALL_COMMENTS
+  override fun getCommentTokens(): TokenSet = TokenSet.create(MscTypes.COMMENT)
 
-    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun getFileNodeType(): IFileElementType = FILE
+  override fun getFileNodeType(): IFileElementType = IFileElementType(MscLanguage)
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = MscModuleFile(viewProvider)
+  override fun createFile(viewProvider: FileViewProvider): PsiFile = MscModuleFile(viewProvider)
 
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): SpaceRequirements =
-            SpaceRequirements.MAY
+  override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode): SpaceRequirements =
+    SpaceRequirements.MAY
 
-    override fun createElement(node: ASTNode): PsiElement = MscTypes.Factory.createElement(node)
-
-    companion object {
-        val ALL_WHITESPACE = TokenSet.create(TokenType.WHITE_SPACE)
-        val ALL_COMMENTS = TokenSet.create(MscTypes.COMMENT)
-
-        val FILE = IFileElementType(MscLanguage)
-    }
+  override fun createElement(node: ASTNode): PsiElement = MscTypes.Factory.createElement(node)
 }

@@ -6,9 +6,8 @@ import com.intellij.psi.FileViewProvider
 import se.clau.intellij_msc.filetypes.MscFileType
 import se.clau.intellij_msc.MscLanguage
 
-class MscModuleFile(viewProvider: FileViewProvider)
-    : PsiFileBase(viewProvider, MscLanguage) {
-    override fun getFileType(): FileType = MscFileType
+class MscModuleFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, MscLanguage) {
+  override fun getFileType(): FileType = MscFileType
 
-    override fun toString(): String = "Message Sequence Chart"
+  override fun toString(): String = "Message Sequence Chart"
 }

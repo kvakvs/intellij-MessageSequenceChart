@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MscAttr extends PsiElement {
 
-  @NotNull
+  @Nullable
   MscString getString();
 
   @NotNull
   PsiElement getEquals();
-
-  @NotNull
-  PsiElement getIdentifier();
 
 }

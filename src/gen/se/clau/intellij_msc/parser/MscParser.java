@@ -62,14 +62,14 @@ public class MscParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER '=' string
+  // IDENTIFIER '=' column_name
   public static boolean attr(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "attr")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, IDENTIFIER, EQUALS);
-    result_ = result_ && string(builder_, level_ + 1);
+    result_ = result_ && column_name(builder_, level_ + 1);
     exit_section_(builder_, marker_, ATTR, result_);
     return result_;
   }
@@ -212,32 +212,38 @@ public class MscParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MSC_KEYWORD '{' element+ '}'
+  // (MSC_KEYWORD | IDENTIFIER) '{' element* '}'
   static boolean file(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "file")) return false;
-    if (!nextTokenIs(builder_, MSC_KEYWORD)) return false;
+    if (!nextTokenIs(builder_, "", IDENTIFIER, MSC_KEYWORD)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, MSC_KEYWORD, OPEN_CURLY);
+    result_ = file_0(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, OPEN_CURLY);
     result_ = result_ && file_2(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, CLOSE_CURLY);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // element+
+  // MSC_KEYWORD | IDENTIFIER
+  private static boolean file_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "file_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, MSC_KEYWORD);
+    if (!result_) result_ = consumeToken(builder_, IDENTIFIER);
+    return result_;
+  }
+
+  // element*
   private static boolean file_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "file_2")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = element(builder_, level_ + 1);
-    while (result_) {
+    while (true) {
       int pos_ = current_position_(builder_);
       if (!element(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "file_2", pos_)) break;
     }
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
+    return true;
   }
 
   /* ********************************************************** */
@@ -264,14 +270,14 @@ public class MscParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER '=' string
+  // IDENTIFIER '=' column_name
   public static boolean option(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "option")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, IDENTIFIER, EQUALS);
-    result_ = result_ && string(builder_, level_ + 1);
+    result_ = result_ && column_name(builder_, level_ + 1);
     exit_section_(builder_, marker_, OPTION, result_);
     return result_;
   }
