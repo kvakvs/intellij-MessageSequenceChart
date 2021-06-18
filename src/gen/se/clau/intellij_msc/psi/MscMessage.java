@@ -20,13 +20,37 @@ public interface MscMessage extends PsiElement {
   PsiElement getArrowL();
 
   @Nullable
-  PsiElement getArrowLl();
+  PsiElement getArrowLla();
+
+  @Nullable
+  PsiElement getArrowLlb();
 
   @Nullable
   PsiElement getArrowR();
 
   @Nullable
-  PsiElement getArrowRr();
+  PsiElement getArrowRra();
+
+  @Nullable
+  PsiElement getArrowRrb();
+
+  @Nullable
+  PsiElement getBidiArrow();
+
+  @Nullable
+  PsiElement getBidiArrow2A();
+
+  @Nullable
+  PsiElement getBidiArrow2B();
+
+  @Nullable
+  PsiElement getBidiColarrow();
+
+  @Nullable
+  PsiElement getBidiDarrow();
+
+  @Nullable
+  PsiElement getBidiDotarrow();
 
   @Nullable
   PsiElement getBox();
@@ -48,6 +72,18 @@ public interface MscMessage extends PsiElement {
 
   @Nullable
   PsiElement getEmphasizedArrowR();
+
+  @Nullable
+  PsiElement getLineDash();
+
+  @Nullable
+  PsiElement getLineDdot();
+
+  @Nullable
+  PsiElement getLineDot();
+
+  @Nullable
+  PsiElement getLineDouble();
 
   @Nullable
   PsiElement getNoteBox();

@@ -11,6 +11,7 @@
 
   <change-notes><![CDATA[
     <ul>
+      <li>18 June 2021 - Syntax parser corrected; comments now work; extra arrows supported by MSC added.</li>
       <li>First release.</li>
     </ul>
   ]]>

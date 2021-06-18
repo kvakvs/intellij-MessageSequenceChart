@@ -34,8 +34,6 @@ WhitespaceSameline  = [\s\t]
 WhitespaceChar      = {Newline} | {WhitespaceSameline}
 Whitespace          = {WhitespaceChar}+
 
-LineComment  = ("//" | '#') .*
-
 OptionName = "hscale" | "width" | "arcgradient" | "wordwraparcs"
 
 //StringLiteral = [\"] [^\"]* [\"]
@@ -51,6 +49,7 @@ Identifier  = [a-z][a-zA-Z]*
 
 %state STRING
 %state IN_BLOCK_COMMENT
+%state IN_LINE_COMMENT
 
 %%
 
@@ -59,6 +58,9 @@ Identifier  = [a-z][a-zA-Z]*
 //  {ShebangLine}    { return getTokenStart() == 0
 //                        ? MscTypes.SHEBANG
 //                        : com.intellij.psi.TokenType.ERROR_ELEMENT; }
+    "//"        { yybegin(IN_LINE_COMMENT); }
+    "#"         { yybegin(IN_LINE_COMMENT); }
+
     'msc' \s*   { return MscTypes.MSC_KEYWORD; }
     "/*"        { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
 
@@ -71,19 +73,28 @@ Identifier  = [a-z][a-zA-Z]*
     "["         { return MscTypes.OPEN_SQUARE; }
     "]"         { return MscTypes.CLOSE_SQUARE; }
 
-    "->"        { return MscTypes.ARROW_R; }
-    "=>"        { return MscTypes.DARROW_R; }
+    "<->"       { return MscTypes.BIDI_ARROW; }
+    "<=>"       { return MscTypes.BIDI_DARROW; }
+    "<.>"       { return MscTypes.BIDI_DOTARROW; }
+    "<:>"       { return MscTypes.BIDI_COLARROW; }
+    "<<=>>"     { return MscTypes.BIDI_ARROW2A; }
+    "<<>>"      { return MscTypes.BIDI_ARROW2B; }
+
     "-x"        { return MscTypes.XARROW_R; }
-    ">>"        { return MscTypes.ARROW_RR; }
+    ">>"        { return MscTypes.ARROW_RRA; }
+    "=>>"        { return MscTypes.ARROW_RRB; }
+    "=>"        { return MscTypes.DARROW_R; }
     ":>"        { return MscTypes.EMPHASIZED_ARROW_R; }
     "->*"       { return MscTypes.BROADCAST_ARROW_R; }
+    "->"        { return MscTypes.ARROW_R; }
 
-    "<-"        { return MscTypes.ARROW_L; }
-    "<="        { return MscTypes.DARROW_L; }
+    "<<="       { return MscTypes.ARROW_LLB; }
     "x-"        { return MscTypes.XARROW_L; }
-    "<<"        { return MscTypes.ARROW_LL; }
+    "<<"        { return MscTypes.ARROW_LLA; }
+    "<="        { return MscTypes.DARROW_L; }
     "<:"        { return MscTypes.EMPHASIZED_ARROW_L; }
     "*<-"       { return MscTypes.BROADCAST_ARROW_L; }
+    "<-"        { return MscTypes.ARROW_L; }
 
     "box"       { return MscTypes.BOX; }
     "abox"      { return MscTypes.ANGLE_BOX; }
@@ -91,15 +102,20 @@ Identifier  = [a-z][a-zA-Z]*
     "note"      { return MscTypes.NOTE_BOX; }
 
     // Vertical Separators
-    "..."         { return MscTypes.ELLIPSIS; }
-    "|||"         { return MscTypes.TRIPLE_BAR; }
-    "---"         { return MscTypes.TRIPLE_DASH; }
+    "..."       { return MscTypes.ELLIPSIS; }
+    "|||"       { return MscTypes.TRIPLE_BAR; }
+    "---"       { return MscTypes.TRIPLE_DASH; }
+
+    "--"        { return MscTypes.LINE_DASH; }
+    "=="        { return MscTypes.LINE_DOUBLE; }
+    ".."        { return MscTypes.LINE_DOT; }
+    "::"        { return MscTypes.LINE_DDOT; }
+
     "="           { return MscTypes.EQUALS; }
 
     \"            { inString.setLength(0); yybegin(STRING); }
     {Identifier}  { return MscTypes.IDENTIFIER; }
 
-    {LineComment}    { return MscTypes.COMMENT; }
     {Whitespace}     { return TokenType.WHITE_SPACE; }
 }
 
@@ -117,6 +133,13 @@ Identifier  = [a-z][a-zA-Z]*
 //------------------------------------------------------------------------------
 <IN_BLOCK_COMMENT> {
   "*/"    { yybegin(YYINITIAL); return MscTypes.COMMENT; }
+  <<EOF>> { yybegin(YYINITIAL); return MscTypes.COMMENT; }
+  [^]     { }
+}
+
+//------------------------------------------------------------------------------
+<IN_LINE_COMMENT> {
+  {Newline} { yybegin(YYINITIAL); return MscTypes.COMMENT; }
   <<EOF>> { yybegin(YYINITIAL); return MscTypes.COMMENT; }
   [^]     { }
 }

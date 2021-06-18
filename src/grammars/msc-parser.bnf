@@ -33,19 +33,33 @@
         TRIPLE_BAR  = '|||'
         TRIPLE_DASH  = '---'
 
+        BIDI_ARROW  = '<->'
+        BIDI_DARROW = '<=>'
+        BIDI_ARROW2A = '<<>>'
+        BIDI_ARROW2B = '<<=>>'
+        BIDI_DOTARROW = '<.>'
+        BIDI_COLARROW = '<:>'
+
         ARROW_R  = '->'
         DARROW_R = '=>'
         XARROW_R = '-x'
-        ARROW_RR = '>>'
+        ARROW_RRA = '>>'
+        ARROW_RRB = '=>>'
         EMPHASIZED_ARROW_R = ':>'
         BROADCAST_ARROW_R = '->*'
 
         ARROW_L  = '<-'
         DARROW_L = '<='
         XARROW_L = 'x-'
-        ARROW_LL = '<<'
+        ARROW_LLA = '<<'
+        ARROW_LLB = '<<='
         EMPHASIZED_ARROW_L = '<:'
         BROADCAST_ARROW_L = '*<-'
+
+        LINE_DASH = '--'
+        LINE_DOUBLE = '=='
+        LINE_DOT = '..'
+        LINE_DDOT = '::'
 
         BOX = 'box'
         ROUNDED_BOX = 'rbox'
@@ -93,6 +107,9 @@ string ::= STRING_LIT
 
 // Link between columns, a message
 message ::= column_name arrow_token column_name attr_block? ';'
-private arrow_token ::= '->' | '=>' | '-x' | '>>' | ':>' | '->*'
-                      | '<=' | '<-' | 'x-' | '<<' | '<:' | '*<-'
-                      | 'box' | 'abox' | 'rbox' | 'note'
+private arrow_token ::=
+    | '<=>' | '<->' | '<<>>' | '<<=>>' | '<.>' | '<:>'
+    | '->' | '=>' | '-x' | '>>' | '=>>' | ':>' | '->*'
+    | '<=' | '<-' | 'x-' | '<<' | '<<=' | '<:' | '*<-'
+    | '--' | '==' | '..' | '::'
+    | 'box' | 'abox' | 'rbox' | 'note'

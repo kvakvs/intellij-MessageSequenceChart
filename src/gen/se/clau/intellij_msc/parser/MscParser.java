@@ -36,28 +36,45 @@ public class MscParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '->' | '=>' | '-x' | '>>' | ':>' | '->*'
-  //                       | '<=' | '<-' | 'x-' | '<<' | '<:' | '*<-'
-  //                       | 'box' | 'abox' | 'rbox' | 'note'
+  // | '<=>' | '<->' | '<<>>' | '<<=>>' | '<.>' | '<:>'
+  //     | '->' | '=>' | '-x' | '>>' | '=>>' | ':>' | '->*'
+  //     | '<=' | '<-' | 'x-' | '<<' | '<<=' | '<:' | '*<-'
+  //     | '--' | '==' | '..' | '::'
+  //     | 'box' | 'abox' | 'rbox' | 'note'
   static boolean arrow_token(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "arrow_token")) return false;
     boolean result_;
-    result_ = consumeToken(builder_, ARROW_R);
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, ARROW_TOKEN_0_0);
+    if (!result_) result_ = consumeToken(builder_, BIDI_DARROW);
+    if (!result_) result_ = consumeToken(builder_, BIDI_ARROW);
+    if (!result_) result_ = consumeToken(builder_, BIDI_ARROW2A);
+    if (!result_) result_ = consumeToken(builder_, BIDI_ARROW2B);
+    if (!result_) result_ = consumeToken(builder_, BIDI_DOTARROW);
+    if (!result_) result_ = consumeToken(builder_, BIDI_COLARROW);
+    if (!result_) result_ = consumeToken(builder_, ARROW_R);
     if (!result_) result_ = consumeToken(builder_, DARROW_R);
     if (!result_) result_ = consumeToken(builder_, XARROW_R);
-    if (!result_) result_ = consumeToken(builder_, ARROW_RR);
+    if (!result_) result_ = consumeToken(builder_, ARROW_RRA);
+    if (!result_) result_ = consumeToken(builder_, ARROW_RRB);
     if (!result_) result_ = consumeToken(builder_, EMPHASIZED_ARROW_R);
     if (!result_) result_ = consumeToken(builder_, BROADCAST_ARROW_R);
     if (!result_) result_ = consumeToken(builder_, DARROW_L);
     if (!result_) result_ = consumeToken(builder_, ARROW_L);
     if (!result_) result_ = consumeToken(builder_, XARROW_L);
-    if (!result_) result_ = consumeToken(builder_, ARROW_LL);
+    if (!result_) result_ = consumeToken(builder_, ARROW_LLA);
+    if (!result_) result_ = consumeToken(builder_, ARROW_LLB);
     if (!result_) result_ = consumeToken(builder_, EMPHASIZED_ARROW_L);
     if (!result_) result_ = consumeToken(builder_, BROADCAST_ARROW_L);
+    if (!result_) result_ = consumeToken(builder_, LINE_DASH);
+    if (!result_) result_ = consumeToken(builder_, LINE_DOUBLE);
+    if (!result_) result_ = consumeToken(builder_, LINE_DOT);
+    if (!result_) result_ = consumeToken(builder_, LINE_DDOT);
     if (!result_) result_ = consumeToken(builder_, BOX);
     if (!result_) result_ = consumeToken(builder_, ANGLE_BOX);
     if (!result_) result_ = consumeToken(builder_, ROUNDED_BOX);
     if (!result_) result_ = consumeToken(builder_, NOTE_BOX);
+    exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 

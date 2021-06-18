@@ -21,7 +21,7 @@ repositories {
 }
 
 intellij { // See https://github.com/JetBrains/gradle-intellij-plugin/
-  version = "2021.1"
+  version = prop("intellijVersion")
   // not found?    apply(plugin = "copyright")
   apply(plugin = "java")
 }

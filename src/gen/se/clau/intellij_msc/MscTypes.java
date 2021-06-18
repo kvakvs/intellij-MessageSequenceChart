@@ -26,9 +26,18 @@ public interface MscTypes {
 
   IElementType ANGLE_BOX = new MscTokenType("abox");
   IElementType ARROW_L = new MscTokenType("<-");
-  IElementType ARROW_LL = new MscTokenType("<<");
+  IElementType ARROW_LLA = new MscTokenType("<<");
+  IElementType ARROW_LLB = new MscTokenType("<<=");
   IElementType ARROW_R = new MscTokenType("->");
-  IElementType ARROW_RR = new MscTokenType(">>");
+  IElementType ARROW_RRA = new MscTokenType(">>");
+  IElementType ARROW_RRB = new MscTokenType("=>>");
+  IElementType ARROW_TOKEN_0_0 = new MscTokenType("arrow_token_0_0");
+  IElementType BIDI_ARROW = new MscTokenType("<->");
+  IElementType BIDI_ARROW2A = new MscTokenType("<<>>");
+  IElementType BIDI_ARROW2B = new MscTokenType("<<=>>");
+  IElementType BIDI_COLARROW = new MscTokenType("<:>");
+  IElementType BIDI_DARROW = new MscTokenType("<=>");
+  IElementType BIDI_DOTARROW = new MscTokenType("<.>");
   IElementType BOX = new MscTokenType("box");
   IElementType BROADCAST_ARROW_L = new MscTokenType("*<-");
   IElementType BROADCAST_ARROW_R = new MscTokenType("->*");
@@ -43,6 +52,10 @@ public interface MscTypes {
   IElementType EMPHASIZED_ARROW_R = new MscTokenType(":>");
   IElementType EQUALS = new MscTokenType("=");
   IElementType IDENTIFIER = new MscTokenType("<identifier>");
+  IElementType LINE_DASH = new MscTokenType("--");
+  IElementType LINE_DDOT = new MscTokenType("::");
+  IElementType LINE_DOT = new MscTokenType("..");
+  IElementType LINE_DOUBLE = new MscTokenType("==");
   IElementType MSC_KEYWORD = new MscTokenType("<msc keyword>");
   IElementType NOTE_BOX = new MscTokenType("note");
   IElementType OPEN_CURLY = new MscTokenType("{");

@@ -29,6 +29,7 @@ public class _MscLexer implements FlexLexer {
   public static final int YYINITIAL = 0;
   public static final int STRING = 2;
   public static final int IN_BLOCK_COMMENT = 4;
+  public static final int IN_LINE_COMMENT = 6;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -37,7 +38,7 @@ public class _MscLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2, 2
+     0,  0,  1,  1,  2,  2,  3, 3
   };
 
   /** 
@@ -59,10 +60,10 @@ public class _MscLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\5\1\37\2\5\1\37\22\0\1\5\1\0\1\35\4\0\1\1\2\0\1\7\1\0\1\11\1\16\1"+
-    "\33\1\6\12\0\1\22\1\10\1\23\1\20\1\17\34\0\1\14\1\36\1\15\3\0\1\26\1\24\1"+
-    "\4\1\0\1\32\7\0\1\2\1\30\1\25\2\0\1\27\1\3\1\31\3\0\1\21\2\0\1\12\1\34\1\13"+
-    "\7\0\1\5\32\0\1\5\337\0\1\5\177\0\13\5\35\0\2\5\5\0\1\5\57\0\1\5\40\0");
+    "\11\0\1\7\1\40\2\7\1\40\22\0\1\7\1\0\1\36\1\2\3\0\1\3\2\0\1\10\1\0\1\12\1"+
+    "\20\1\23\1\1\12\0\1\24\1\11\1\17\1\22\1\21\34\0\1\15\1\37\1\16\3\0\1\30\1"+
+    "\26\1\6\1\0\1\34\7\0\1\4\1\32\1\27\2\0\1\31\1\5\1\33\3\0\1\25\2\0\1\13\1\35"+
+    "\1\14\7\0\1\7\32\0\1\7\337\0\1\7\177\0\13\7\35\0\2\7\5\0\1\7\57\0\1\7\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -70,17 +71,18 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\1\1\1\2\1\3\2\2\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\2\2\1\12\1\1\2\2\4\1"+
-    "\2\2\1\13\1\2\1\14\1\15\1\16\2\17\2\0"+
-    "\1\20\1\21\2\0\1\22\1\23\1\24\1\25\1\26"+
-    "\1\27\1\30\1\31\1\32\1\33\4\1\2\0\1\34"+
-    "\1\35\1\36\1\37\1\40\1\0\1\41\1\42\1\43"+
-    "\1\44\3\1\1\45\1\46\1\0\1\47\1\50\1\51"+
-    "\1\52";
+    "\4\0\1\1\1\2\1\3\1\2\1\4\1\2\1\5"+
+    "\1\6\1\7\1\10\1\11\1\12\3\2\1\13\2\2"+
+    "\5\1\1\2\1\14\1\2\1\15\1\16\1\17\2\20"+
+    "\1\21\1\22\2\0\1\23\1\24\1\25\1\0\1\26"+
+    "\1\27\1\30\1\31\1\32\1\33\1\34\1\35\1\36"+
+    "\1\37\1\40\4\1\1\0\1\41\1\42\1\43\1\44"+
+    "\1\21\1\0\1\45\1\0\1\46\1\47\1\50\1\51"+
+    "\1\52\1\53\1\54\1\55\1\56\1\57\3\1\1\60"+
+    "\1\0\1\61\1\0\1\62\1\63\1\64\1\65\1\66";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[75];
+    int [] result = new int[89];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -105,19 +107,21 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\40\0\100\0\140\0\200\0\240\0\300\0\340"+
-    "\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100\0\u0120\0\u0140"+
-    "\0\u0160\0\u0180\0\u01a0\0\u01c0\0\u01e0\0\u0200\0\u0220\0\u0240"+
-    "\0\u0260\0\u0280\0\u0100\0\u0100\0\u02a0\0\u0100\0\u02c0\0\u0100"+
-    "\0\u02e0\0\u0300\0\u0320\0\u0340\0\u0100\0\u0360\0\u0380\0\u03a0"+
-    "\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100\0\u0100"+
-    "\0\u0100\0\u03c0\0\u03e0\0\u0400\0\u0420\0\u0440\0\u0460\0\u0100"+
-    "\0\u0100\0\u0100\0\u0100\0\u0100\0\u0480\0\u0100\0\u0100\0\u0100"+
-    "\0\140\0\u04a0\0\u04c0\0\u04e0\0\u0100\0\u0100\0\u0500\0\140"+
-    "\0\140\0\140\0\u0520";
+    "\0\0\0\41\0\102\0\143\0\204\0\245\0\306\0\347"+
+    "\0\u0108\0\u0129\0\306\0\306\0\306\0\306\0\306\0\306"+
+    "\0\u014a\0\u016b\0\u018c\0\u01ad\0\u01ce\0\u01ef\0\u0210\0\u0231"+
+    "\0\u0252\0\u0273\0\u0294\0\u02b5\0\306\0\306\0\u02d6\0\306"+
+    "\0\u02f7\0\306\0\u0318\0\u0339\0\306\0\u035a\0\u037b\0\u039c"+
+    "\0\u03bd\0\u03de\0\u03ff\0\u0420\0\u0441\0\u0462\0\306\0\306"+
+    "\0\u0483\0\306\0\u04a4\0\306\0\306\0\306\0\u04c5\0\u04e6"+
+    "\0\u0507\0\u0528\0\u0549\0\306\0\306\0\306\0\306\0\306"+
+    "\0\u056a\0\306\0\u058b\0\u05ac\0\306\0\306\0\306\0\306"+
+    "\0\306\0\306\0\306\0\306\0\204\0\u05cd\0\u05ee\0\u060f"+
+    "\0\306\0\u0630\0\306\0\u0651\0\204\0\204\0\204\0\u0672"+
+    "\0\306";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[75];
+    int [] result = new int[89];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -140,38 +144,37 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\3\4\1\6\1\7\1\10\1\11\1\12"+
-    "\1\13\1\14\1\15\1\16\1\17\1\20\1\21\1\22"+
-    "\1\23\1\24\1\25\1\4\1\26\1\27\1\30\2\4"+
-    "\1\31\1\32\1\33\1\34\1\6\35\35\1\36\1\37"+
-    "\1\34\7\40\1\41\30\40\1\4\1\0\3\4\14\0"+
-    "\1\4\2\0\7\4\5\0\1\42\1\0\1\43\42\0"+
-    "\1\6\31\0\1\6\6\0\1\44\1\45\53\0\1\46"+
-    "\72\0\1\47\1\50\1\0\1\51\35\0\1\52\37\0"+
-    "\1\53\20\0\1\4\1\0\3\4\11\0\1\54\2\0"+
-    "\1\4\2\0\7\4\24\0\1\55\36\0\1\56\1\0"+
-    "\1\57\1\0\1\60\1\61\14\0\1\4\1\0\3\4"+
-    "\14\0\1\4\2\0\1\4\1\62\5\4\5\0\1\4"+
-    "\1\0\3\4\14\0\1\4\2\0\1\63\6\4\5\0"+
-    "\1\4\1\0\3\4\14\0\1\4\2\0\1\64\6\4"+
-    "\5\0\1\4\1\0\3\4\14\0\1\4\2\0\1\4"+
-    "\1\65\5\4\40\0\1\66\40\0\1\67\3\0\35\35"+
-    "\32\0\1\70\1\71\1\72\3\0\1\73\10\0\1\74"+
-    "\32\0\1\44\41\0\1\75\34\0\5\44\1\0\31\44"+
-    "\17\0\1\76\37\0\1\77\30\0\1\100\30\0\1\4"+
-    "\1\0\3\4\14\0\1\101\2\0\7\4\5\0\1\4"+
-    "\1\0\3\4\14\0\1\4\2\0\1\4\1\102\5\4"+
-    "\5\0\1\4\1\0\3\4\14\0\1\4\2\0\1\4"+
-    "\1\103\5\4\5\0\1\4\1\0\3\4\14\0\1\4"+
-    "\2\0\5\4\1\104\1\4\40\0\1\105\40\0\1\106"+
-    "\7\0\1\107\33\0\1\4\1\0\3\4\14\0\1\110"+
-    "\2\0\7\4\5\0\1\4\1\0\3\4\14\0\1\111"+
-    "\2\0\7\4\5\0\1\4\1\0\3\4\14\0\1\4"+
-    "\2\0\6\4\1\112\6\0\1\113\43\0\1\113\31\0"+
-    "\1\113";
+    "\1\5\1\6\1\7\1\10\3\5\1\11\1\12\1\13"+
+    "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
+    "\1\24\1\25\1\26\1\27\1\30\1\5\1\31\1\32"+
+    "\1\33\2\5\1\34\1\35\1\36\1\11\36\37\1\40"+
+    "\1\41\1\36\10\42\1\43\70\42\1\44\1\5\3\0"+
+    "\3\5\16\0\10\5\5\0\1\7\6\0\1\45\75\0"+
+    "\1\46\43\0\1\11\30\0\1\11\17\0\1\47\40\0"+
+    "\1\50\1\51\1\0\1\52\1\53\1\54\34\0\1\55"+
+    "\1\56\3\0\1\57\34\0\1\60\40\0\1\61\1\62"+
+    "\41\0\1\63\36\0\1\64\2\0\1\65\14\0\1\5"+
+    "\3\0\3\5\11\0\1\66\4\0\10\5\4\0\1\5"+
+    "\3\0\3\5\16\0\2\5\1\67\5\5\4\0\1\5"+
+    "\3\0\3\5\16\0\1\5\1\70\6\5\4\0\1\5"+
+    "\3\0\3\5\16\0\1\5\1\71\6\5\4\0\1\5"+
+    "\3\0\3\5\16\0\2\5\1\72\5\5\41\0\1\73"+
+    "\3\0\36\37\34\0\1\74\1\75\1\76\2\0\1\77"+
+    "\3\0\1\100\77\0\1\100\5\0\1\101\53\0\1\102"+
+    "\41\0\1\103\1\104\37\0\1\105\40\0\1\106\40\0"+
+    "\1\107\40\0\1\110\37\0\1\111\30\0\1\112\51\0"+
+    "\1\113\42\0\1\114\15\0\1\5\3\0\3\5\16\0"+
+    "\1\115\7\5\4\0\1\5\3\0\3\5\16\0\2\5"+
+    "\1\116\5\5\4\0\1\5\3\0\3\5\16\0\2\5"+
+    "\1\117\5\5\4\0\1\5\3\0\3\5\16\0\6\5"+
+    "\1\120\1\5\41\0\1\121\11\0\1\122\53\0\1\123"+
+    "\40\0\1\124\17\0\1\5\3\0\3\5\16\0\1\125"+
+    "\7\5\4\0\1\5\3\0\3\5\16\0\1\126\7\5"+
+    "\4\0\1\5\3\0\3\5\16\0\7\5\1\127\7\0"+
+    "\1\130\56\0\1\131\26\0\1\130\30\0\1\130";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1344];
+    int [] result = new int[1683];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -209,13 +212,14 @@ public class _MscLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\5\1\6\11\14\1\2\11\1\1\1\11\1\1"+
-    "\1\11\1\1\2\0\1\1\1\11\2\0\1\1\11\11"+
-    "\4\1\2\0\5\11\1\0\3\11\4\1\2\11\1\0"+
-    "\4\1";
+    "\4\0\2\1\1\11\3\1\6\11\14\1\2\11\1\1"+
+    "\1\11\1\1\1\11\2\1\1\11\2\0\3\1\1\0"+
+    "\3\1\2\11\1\1\1\11\1\1\3\11\4\1\1\0"+
+    "\5\11\1\0\1\11\1\0\1\1\10\11\4\1\1\11"+
+    "\1\0\1\11\1\0\4\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[75];
+    int [] result = new int[89];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -576,7 +580,11 @@ public class _MscLexer implements FlexLexer {
             case IN_BLOCK_COMMENT: {
               yybegin(YYINITIAL); return MscTypes.COMMENT;
             }  // fall though
-            case 76: break;
+            case 90: break;
+            case IN_LINE_COMMENT: {
+              yybegin(YYINITIAL); return MscTypes.COMMENT;
+            }  // fall though
+            case 91: break;
             default:
         return null;
         }
@@ -587,212 +595,272 @@ public class _MscLexer implements FlexLexer {
             { return MscTypes.IDENTIFIER;
             } 
             // fall through
-          case 43: break;
+          case 55: break;
           case 2: 
             { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER;
             } 
             // fall through
-          case 44: break;
-          case 3: 
-            { return TokenType.WHITE_SPACE;
-            } 
-            // fall through
-          case 45: break;
-          case 4: 
-            { return MscTypes.SEMICOLON;
-            } 
-            // fall through
-          case 46: break;
-          case 5: 
-            { return MscTypes.COMMA;
-            } 
-            // fall through
-          case 47: break;
-          case 6: 
-            { return MscTypes.OPEN_CURLY;
-            } 
-            // fall through
-          case 48: break;
-          case 7: 
-            { return MscTypes.CLOSE_CURLY;
-            } 
-            // fall through
-          case 49: break;
-          case 8: 
-            { return MscTypes.OPEN_SQUARE;
-            } 
-            // fall through
-          case 50: break;
-          case 9: 
-            { return MscTypes.CLOSE_SQUARE;
-            } 
-            // fall through
-          case 51: break;
-          case 10: 
-            { return MscTypes.EQUALS;
-            } 
-            // fall through
-          case 52: break;
-          case 11: 
-            { inString.setLength(0); yybegin(STRING);
-            } 
-            // fall through
-          case 53: break;
-          case 12: 
-            { inString.append( yytext() );
-            } 
-            // fall through
-          case 54: break;
-          case 13: 
-            { yybegin(YYINITIAL); return MscTypes.STRING_LIT;
-            } 
-            // fall through
-          case 55: break;
-          case 14: 
-            { inString.append('\\');
-            } 
-            // fall through
           case 56: break;
-          case 15: 
-            { 
+          case 3: 
+            { yybegin(IN_LINE_COMMENT);
             } 
             // fall through
           case 57: break;
-          case 16: 
-            { return MscTypes.COMMENT;
+          case 4: 
+            { return TokenType.WHITE_SPACE;
             } 
             // fall through
           case 58: break;
-          case 17: 
-            { yybegin(IN_BLOCK_COMMENT); yypushback(2);
+          case 5: 
+            { return MscTypes.SEMICOLON;
             } 
             // fall through
           case 59: break;
-          case 18: 
-            { return MscTypes.ARROW_R;
+          case 6: 
+            { return MscTypes.COMMA;
             } 
             // fall through
           case 60: break;
-          case 19: 
-            { return MscTypes.XARROW_R;
+          case 7: 
+            { return MscTypes.OPEN_CURLY;
             } 
             // fall through
           case 61: break;
-          case 20: 
-            { return MscTypes.ARROW_RR;
+          case 8: 
+            { return MscTypes.CLOSE_CURLY;
             } 
             // fall through
           case 62: break;
-          case 21: 
-            { return MscTypes.DARROW_R;
+          case 9: 
+            { return MscTypes.OPEN_SQUARE;
             } 
             // fall through
           case 63: break;
-          case 22: 
-            { return MscTypes.XARROW_L;
+          case 10: 
+            { return MscTypes.CLOSE_SQUARE;
             } 
             // fall through
           case 64: break;
-          case 23: 
-            { return MscTypes.EMPHASIZED_ARROW_R;
+          case 11: 
+            { return MscTypes.EQUALS;
             } 
             // fall through
           case 65: break;
-          case 24: 
-            { return MscTypes.ARROW_L;
+          case 12: 
+            { inString.setLength(0); yybegin(STRING);
             } 
             // fall through
           case 66: break;
-          case 25: 
-            { return MscTypes.DARROW_L;
+          case 13: 
+            { inString.append( yytext() );
             } 
             // fall through
           case 67: break;
-          case 26: 
-            { return MscTypes.EMPHASIZED_ARROW_L;
+          case 14: 
+            { yybegin(YYINITIAL); return MscTypes.STRING_LIT;
             } 
             // fall through
           case 68: break;
-          case 27: 
-            { return MscTypes.ARROW_LL;
+          case 15: 
+            { inString.append('\\');
             } 
             // fall through
           case 69: break;
-          case 28: 
-            { inString.append('\r');
+          case 16: 
+            { 
             } 
             // fall through
           case 70: break;
-          case 29: 
-            { inString.append('\n');
-            } 
-            // fall through
-          case 71: break;
-          case 30: 
-            { inString.append('\t');
-            } 
-            // fall through
-          case 72: break;
-          case 31: 
-            { inString.append('\"');
-            } 
-            // fall through
-          case 73: break;
-          case 32: 
+          case 17: 
             { yybegin(YYINITIAL); return MscTypes.COMMENT;
             } 
             // fall through
+          case 71: break;
+          case 18: 
+            { yybegin(IN_BLOCK_COMMENT); yypushback(2);
+            } 
+            // fall through
+          case 72: break;
+          case 19: 
+            { return MscTypes.ARROW_LLA;
+            } 
+            // fall through
+          case 73: break;
+          case 20: 
+            { return MscTypes.ARROW_L;
+            } 
+            // fall through
           case 74: break;
-          case 33: 
-            { return MscTypes.BROADCAST_ARROW_L;
+          case 21: 
+            { return MscTypes.DARROW_L;
             } 
             // fall through
           case 75: break;
-          case 34: 
-            { return MscTypes.TRIPLE_DASH;
+          case 22: 
+            { return MscTypes.EMPHASIZED_ARROW_L;
             } 
             // fall through
           case 76: break;
-          case 35: 
-            { return MscTypes.BROADCAST_ARROW_R;
+          case 23: 
+            { return MscTypes.LINE_DASH;
             } 
             // fall through
           case 77: break;
-          case 36: 
-            { return MscTypes.BOX;
+          case 24: 
+            { return MscTypes.ARROW_R;
             } 
             // fall through
           case 78: break;
-          case 37: 
-            { return MscTypes.ELLIPSIS;
+          case 25: 
+            { return MscTypes.XARROW_R;
             } 
             // fall through
           case 79: break;
-          case 38: 
-            { return MscTypes.TRIPLE_BAR;
+          case 26: 
+            { return MscTypes.ARROW_RRA;
             } 
             // fall through
           case 80: break;
-          case 39: 
-            { return MscTypes.ANGLE_BOX;
+          case 27: 
+            { return MscTypes.DARROW_R;
             } 
             // fall through
           case 81: break;
-          case 40: 
-            { return MscTypes.ROUNDED_BOX;
+          case 28: 
+            { return MscTypes.LINE_DOUBLE;
             } 
             // fall through
           case 82: break;
-          case 41: 
-            { return MscTypes.NOTE_BOX;
+          case 29: 
+            { return MscTypes.LINE_DOT;
             } 
             // fall through
           case 83: break;
-          case 42: 
-            { return MscTypes.MSC_KEYWORD;
+          case 30: 
+            { return MscTypes.EMPHASIZED_ARROW_R;
             } 
             // fall through
           case 84: break;
+          case 31: 
+            { return MscTypes.LINE_DDOT;
+            } 
+            // fall through
+          case 85: break;
+          case 32: 
+            { return MscTypes.XARROW_L;
+            } 
+            // fall through
+          case 86: break;
+          case 33: 
+            { inString.append('\r');
+            } 
+            // fall through
+          case 87: break;
+          case 34: 
+            { inString.append('\n');
+            } 
+            // fall through
+          case 88: break;
+          case 35: 
+            { inString.append('\t');
+            } 
+            // fall through
+          case 89: break;
+          case 36: 
+            { inString.append('\"');
+            } 
+            // fall through
+          case 90: break;
+          case 37: 
+            { return MscTypes.BROADCAST_ARROW_L;
+            } 
+            // fall through
+          case 91: break;
+          case 38: 
+            { return MscTypes.ARROW_LLB;
+            } 
+            // fall through
+          case 92: break;
+          case 39: 
+            { return MscTypes.BIDI_ARROW;
+            } 
+            // fall through
+          case 93: break;
+          case 40: 
+            { return MscTypes.BIDI_DARROW;
+            } 
+            // fall through
+          case 94: break;
+          case 41: 
+            { return MscTypes.BIDI_DOTARROW;
+            } 
+            // fall through
+          case 95: break;
+          case 42: 
+            { return MscTypes.BIDI_COLARROW;
+            } 
+            // fall through
+          case 96: break;
+          case 43: 
+            { return MscTypes.TRIPLE_DASH;
+            } 
+            // fall through
+          case 97: break;
+          case 44: 
+            { return MscTypes.BROADCAST_ARROW_R;
+            } 
+            // fall through
+          case 98: break;
+          case 45: 
+            { return MscTypes.ARROW_RRB;
+            } 
+            // fall through
+          case 99: break;
+          case 46: 
+            { return MscTypes.ELLIPSIS;
+            } 
+            // fall through
+          case 100: break;
+          case 47: 
+            { return MscTypes.BOX;
+            } 
+            // fall through
+          case 101: break;
+          case 48: 
+            { return MscTypes.TRIPLE_BAR;
+            } 
+            // fall through
+          case 102: break;
+          case 49: 
+            { return MscTypes.BIDI_ARROW2B;
+            } 
+            // fall through
+          case 103: break;
+          case 50: 
+            { return MscTypes.ANGLE_BOX;
+            } 
+            // fall through
+          case 104: break;
+          case 51: 
+            { return MscTypes.ROUNDED_BOX;
+            } 
+            // fall through
+          case 105: break;
+          case 52: 
+            { return MscTypes.NOTE_BOX;
+            } 
+            // fall through
+          case 106: break;
+          case 53: 
+            { return MscTypes.MSC_KEYWORD;
+            } 
+            // fall through
+          case 107: break;
+          case 54: 
+            { return MscTypes.BIDI_ARROW2A;
+            } 
+            // fall through
+          case 108: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

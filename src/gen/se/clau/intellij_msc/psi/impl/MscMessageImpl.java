@@ -53,8 +53,14 @@ public class MscMessageImpl extends ASTWrapperPsiElement implements MscMessage {
 
   @Override
   @Nullable
-  public PsiElement getArrowLl() {
-    return findChildByType(ARROW_LL);
+  public PsiElement getArrowLla() {
+    return findChildByType(ARROW_LLA);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getArrowLlb() {
+    return findChildByType(ARROW_LLB);
   }
 
   @Override
@@ -65,8 +71,50 @@ public class MscMessageImpl extends ASTWrapperPsiElement implements MscMessage {
 
   @Override
   @Nullable
-  public PsiElement getArrowRr() {
-    return findChildByType(ARROW_RR);
+  public PsiElement getArrowRra() {
+    return findChildByType(ARROW_RRA);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getArrowRrb() {
+    return findChildByType(ARROW_RRB);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiArrow() {
+    return findChildByType(BIDI_ARROW);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiArrow2A() {
+    return findChildByType(BIDI_ARROW2A);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiArrow2B() {
+    return findChildByType(BIDI_ARROW2B);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiColarrow() {
+    return findChildByType(BIDI_COLARROW);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiDarrow() {
+    return findChildByType(BIDI_DARROW);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBidiDotarrow() {
+    return findChildByType(BIDI_DOTARROW);
   }
 
   @Override
@@ -109,6 +157,30 @@ public class MscMessageImpl extends ASTWrapperPsiElement implements MscMessage {
   @Nullable
   public PsiElement getEmphasizedArrowR() {
     return findChildByType(EMPHASIZED_ARROW_R);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLineDash() {
+    return findChildByType(LINE_DASH);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLineDdot() {
+    return findChildByType(LINE_DDOT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLineDot() {
+    return findChildByType(LINE_DOT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLineDouble() {
+    return findChildByType(LINE_DOUBLE);
   }
 
   @Override
