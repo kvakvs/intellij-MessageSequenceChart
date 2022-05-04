@@ -2,7 +2,6 @@
   <id>se.clau.intellij_msc</id>
   <vendor email="dmytro.lytovchenko@gmail.com">Dmytro Lytovchenko</vendor>
   <name>Message Sequence Chart (MSC)</name>
-  <version>0.1</version>
 
   <description><![CDATA[
     <p>Adds support for Message Sequence Chart syntax. MSC files are processed by MSCGEN tool:
@@ -17,6 +16,8 @@
   ]]>
   </change-notes>
 
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="213"/>
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">

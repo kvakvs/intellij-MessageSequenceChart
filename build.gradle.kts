@@ -7,11 +7,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   idea
   java
-  id("org.jetbrains.kotlin.jvm") version "1.4.32"
-  id("org.jetbrains.intellij") version "0.7.2"
-  id("org.jetbrains.grammarkit") version "2021.1"
+  id("org.jetbrains.kotlin.jvm") version "1.6.20"
+  id("org.jetbrains.intellij") version "1.3.1"
+  id("org.jetbrains.grammarkit") version "2021.1.2"
 }
 
+val intellijVersion = prop("intellijVersion")
 val intelliLangPlugin = "org.intellij.intelliLang"
 val psiViewerPluginVersion = prop("psiViewerPluginVersion")
 val psiViewerPlugin = "PsiViewer:${prop("psiViewerPluginVersion")}"
@@ -21,8 +22,7 @@ repositories {
 }
 
 intellij { // See https://github.com/JetBrains/gradle-intellij-plugin/
-  version = prop("intellijVersion")
-  // not found?    apply(plugin = "copyright")
+  version.set(intellijVersion)
   apply(plugin = "java")
 }
 
@@ -38,8 +38,8 @@ compileKotlin.kotlinOptions.jvmTarget = "11"
 allprojects {
   sourceSets {
     main {
-      java.srcDirs("src/se/clau/intellij_msc", "src/gen")
-      kotlin.srcDirs("src/se/clau/intellij_msc")
+      java.srcDirs("src", "src/gen")
+      kotlin.srcDirs("src")
 
       resources.srcDirs("resources")
     }
@@ -52,33 +52,34 @@ allprojects {
   }
 
   intellij {
-    val plugins = mutableListOf(
-      intelliLangPlugin,
-      psiViewerPlugin
-    )
-    setPlugins(*plugins.toTypedArray())
-  }
-
-  val generateMscLexer = task<GenerateLexer>("generateMscLexer") {
-    source = "src/grammars/msc-lexer.flex"
-    targetDir = "src/gen/se/clau/intellij_msc/lexer"
-    targetClass = "_MscLexer"
-    purgeOldFiles = true
-  }
-
-  val generateMscParser = task<GenerateParser>("generateMscParser") {
-    source = "src/grammars/msc-parser.bnf"
-    targetRoot = "src/gen"
-    pathToParser = "/se/clau/intellij_msc/parser/MscParser.java"
-    pathToPsiRoot = "/se/clau/intellij_msc/psi"
-    purgeOldFiles = true
-  }
-
-  tasks.withType<KotlinCompile> {
-    dependsOn(
-      generateMscLexer, generateMscParser
+    plugins.set(
+      listOf(
+        intelliLangPlugin,
+        psiViewerPlugin
+      )
     )
   }
+
+//  val generateMscLexer = task<GenerateLexer>("generateMscLexer") {
+//    source = "src/grammars/msc-lexer.flex"
+//    targetDir = "gen/lexer"
+//    targetClass = "_MscLexer"
+//    purgeOldFiles = true
+//  }
+
+//  val generateMscParser = task<GenerateParser>("generateMscParser") {
+//    source = "src/grammars/msc-parser.bnf"
+//    targetRoot = "gen/parser"
+//    pathToParser = "/se/clau/intellij_msc/parser/MscParser.java"
+//    pathToPsiRoot = "/se/clau/intellij_msc/psi"
+//    purgeOldFiles = true
+//  }
+
+//  tasks.withType<KotlinCompile> {
+//    dependsOn(
+//      generateMscLexer, generateMscParser
+//    )
+//  }
 
   tasks {
     runIde {
