@@ -1,15 +1,15 @@
 import org.gradle.api.internal.HasConvention
-import org.jetbrains.grammarkit.tasks.GenerateLexer
-import org.jetbrains.grammarkit.tasks.GenerateParser
+//import org.jetbrains.grammarkit.tasks.GenerateLexer
+//import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   idea
   java
-  id("org.jetbrains.kotlin.jvm") version "1.6.20"
-  id("org.jetbrains.intellij") version "1.5.3"
-  id("org.jetbrains.grammarkit") version "2021.1.2"
+  id("org.jetbrains.kotlin.jvm") version "1.8.22"
+  id("org.jetbrains.intellij") version "1.17.3"
+  id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 val intellijVersion = prop("intellijVersion")
@@ -27,13 +27,13 @@ intellij { // See https://github.com/JetBrains/gradle-intellij-plugin/
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=enable"
-compileKotlin.kotlinOptions.jvmTarget = "11"
+compileKotlin.kotlinOptions.jvmTarget = "17"
 
 allprojects {
   sourceSets {
@@ -55,7 +55,7 @@ allprojects {
     plugins.set(
       listOf(
         intelliLangPlugin,
-        psiViewerPlugin
+        //psiViewerPlugin
       )
     )
   }
